@@ -454,7 +454,8 @@ def workspace_settings(user: User = Depends(get_current_user), db: Session = Dep
     return {"tenant": {"name": tenant.name, "slug": tenant.slug, "plan": tenant.plan, "markets": tenant.markets}, "user": _user_dict(user), "ai": {"configured": bool(settings.vultr_api_key), "provider": "Vultr Serverless Inference" if settings.vultr_api_key else "Local deterministic fallback", "model": settings.vultr_model if settings.vultr_api_key else "rules-engine"}, "limits": {"max_upload_mb": settings.max_upload_mb}}
 
 # Static application served by the same origin as the API.
-app.mount("/assets", StaticFiles(directory=STATIC_DIR), name="assets")
+assets_dir = STATIC_DIR / "assets" if (STATIC_DIR / "assets").is_dir() else STATIC_DIR
+app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
 @app.get("/", include_in_schema=False)
 def root():

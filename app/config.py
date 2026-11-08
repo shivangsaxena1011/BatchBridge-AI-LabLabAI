@@ -13,7 +13,7 @@ except ImportError:
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = Path(os.getenv("DATA_DIR", ROOT / "data"))
 UPLOAD_DIR = Path(os.getenv("UPLOAD_DIR", DATA_DIR / "uploads"))
-STATIC_DIR = Path(__file__).resolve().parent / "static"
+STATIC_DIR = ROOT / "public" if (ROOT / "public" / "index.html").exists() else Path(__file__).resolve().parent / "static"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
