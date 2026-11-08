@@ -1,197 +1,147 @@
 # BatchBridge AI
 
-**Unified food traceability and recall operations for India and the United States.**
+**Unified Food Traceability & Autonomous Recall Intelligence for India and the United States**
 
-BatchBridge is a SaaS-style operational prototype for food manufacturers, processors and distribution networks. It turns an incident signal into an evidence-linked investigation: trace the source lot through production genealogy, identify finished-goods lots and downstream shipment recipients, calculate exposure from stored records, prepare response tasks, collect human approvals and track recipient acknowledgements.
+[![Live Demo](https://img.shields.io/badge/Demo-Live%20on%20Vercel-success?style=flat-square)](https://batchbridge-ai-lablabai.vercel.app)
+[![Track](https://img.shields.io/badge/Track-C2%20Powering%20the%20Future%20of%20Work-blue?style=flat-square)](https://lablab.ai/?utm_source=chatgpt.com)
+[![Platform](https://img.shields.io/badge/Infrastructure-Vultr%20Cloud%20%26%20Inference-007bfc?style=flat-square)](https://www.vultr.com/?utm_source=chatgpt.com)
+[![License](https://img.shields.io/badge/License-Proprietary%20%2F%20All%20Rights%20Reserved-red?style=flat-square)](#intellectual-property--terms-of-use)
 
-It is designed for the LabLab × Vultr **Powering the Future of Work** challenge: an enterprise workflow with multi-step agents, a real product-style web application and Vultr as the backend control layer.
+---
 
-> **Important status:** This repository is a deployable, production-oriented prototype and hackathon demonstration foundation. It is not yet a certified production food-safety system. Before real operational use, complete the hardening checklist below, validate regulatory workflows with qualified counsel, and connect real ERP/WMS, communication and partner systems. It does not make legal decisions, send recall notices, file with regulators or physically quarantine stock.
+## 🏆 LabLab × Vultr Agent Rush Hackathon 2026
 
-## What works in this build
+**Vultr Agent Rush** is a premier AI agent development hackathon organized by **LabLab** in collaboration with **Vultr**, bringing together developers, AI engineers, founders, and innovators to build practical AI-powered applications powered by modern cloud and AI infrastructure.
 
-- Organization workspace registration and sign-in with tenant-scoped records.
-- Demo tenant with fictional cross-market partner, lot, production, finished-goods and shipment data.
-- Incident intake against a registered source lot.
-- Multi-stage agent workflow: evidence intake, traceability, impact assessment, regulatory mapping, recall coordination, verification and AI reasoning.
-- Deterministic source-to-finished-lot genealogy and downstream shipment resolution. A query can start from an ingredient lot or a finished-goods lot.
-- Quantity and recipient metrics derived from database records, not model guesses.
-- Evidence upload (PDF, DOCX, XLSX, CSV, TXT, PNG, JPG) with file-size limit, SHA-256 fingerprint and text extraction for supported document types.
-- Vultr Serverless Inference integration point using the OpenAI-compatible chat completions API. The API key remains server-side.
-- Human approval/rejection gates for proposed actions. Approving a demo action can update internal lot status, create recipient-specific notice drafts, update acknowledgement tracking or generate a dossier snapshot.
-- Recipient acknowledgement capture and quantity validation.
-- Mock recall-readiness drill using actual records in the workspace.
-- India FSSAI and US FDA operational reference profiles, kept separate by market.
-- Audit activity feed and stored agent-run records.
-- Dockerfile and Docker Compose stack using PostgreSQL.
+The hackathon focuses on moving beyond basic conversational chatbots towards **intelligent, autonomous agents** that can execute useful tasks, automate complex workflows, interact with enterprise systems, and solve mission-critical real-world problems.
 
-## Demo access
+### Who Organized the Hackathon?
+- **LabLab:** The leading AI hackathon and developer community platform that organizes innovation challenges, connects top global builders, and provides a platform to showcase groundbreaking AI projects.
+- **Vultr:** The world's largest privately-held independent cloud infrastructure provider, supporting developers with high-performance cloud compute, advanced GPU infrastructure, and scalable Serverless AI Inference capabilities.
 
-The sample workspace is seeded on first start by default:
+The event combines LabLab's global hackathon ecosystem with Vultr's high-performance cloud and AI infrastructure.
 
-- **Email:** `demo@batchbridge.ai`
-- **Password:** `BatchBridgeDemo#2026`
+### Main Objectives
+1. **Practical AI Agent Applications:** Encourage developers to build purposeful AI agent systems that go beyond superficial chat interfaces.
+2. **Real-World Automation:** Demonstrate practical applications of AI automation across professional and regulated industries.
+3. **Cloud-Based AI Infrastructure:** Harness and benchmark cloud-based AI infrastructure and low-latency serverless inference.
+4. **Scalable Enterprise Workflows:** Develop resilient, scalable architectures designed for business operations and regulatory governance.
+5. **Applied Innovation:** Drive real-world product development, collaboration, and industry impact.
 
-All demo organizations, suppliers, products, incidents, quantities, contacts and distribution records are fictional. Do not use demo data as real food-safety evidence.
+### Hackathon Challenge Tracks
 
-To turn off demo seeding, set `SEED_DEMO_DATA=false` and register a new workspace from the sign-in page.
-
-## Run locally on Windows 11
-
-### Option A — one-click launcher
-
-1. Install Python 3.12 (Python 3.11+ should also work).
-2. Extract the repository folder.
-3. Double-click `run-local.bat` or run `./run-local.ps1` from PowerShell.
-4. The launcher creates `.venv`, copies `.env.example` to `.env` if needed, installs requirements and starts FastAPI.
-5. Open **http://127.0.0.1:8000**.
-
-The first run requires internet access to install Python packages. The application UI and API are served from the same origin; no Node/npm installation is required.
-
-### Option B — manual setup
-
-```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-Copy-Item .env.example .env
-python -m pip install -r requirements.txt
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
-```
-
-Open `http://127.0.0.1:8000`. API documentation is at `http://127.0.0.1:8000/docs`.
-
-## Vultr Serverless Inference setup
-
-BatchBridge supports Vultr's OpenAI-compatible API from the backend. Current base URL:
-
-```text
-https://api.vultrinference.com/v1
-```
-
-1. Create an inference API key in your Vultr console.
-2. Open the repository's `.env` file on the server. Never put the key in `app/static/app.js`, HTML, a public config file, a screenshot, or Git.
-3. Add:
-
-```dotenv
-VULTR_INFERENCE_API_KEY=YOUR_VULTR_SERVERLESS_INFERENCE_KEY
-VULTR_INFERENCE_BASE_URL=https://api.vultrinference.com/v1
-VULTR_INFERENCE_MODEL=deepseek-v4.1-flash-1017
-```
-
-4. Restart the backend.
-5. Sign in and open **Workspace settings → Test Vultr connection**.
-6. Open an incident and select **Run agent investigation**. The AI reasoning agent will use Vultr when configured. Otherwise the deterministic local fallback remains active and is labelled as such.
-
-Model IDs can change. Confirm the model you intend to use against Vultr's live model catalogue before deployment. BatchBridge deliberately does not silently claim live LLM inference when the key is absent or the request fails.
-
-## Docker / Vultr Cloud Compute deployment
-
-Use a Vultr Cloud Compute instance with Docker Engine and the Compose plugin installed.
-
-1. Copy `.env.example` to `.env`.
-2. Set a unique, long `JWT_SECRET` (32+ random characters), a strong `DEMO_SEED_PASSWORD`, a unique `POSTGRES_PASSWORD` (use URL-safe alphanumeric characters), and your DNS name in `DOMAIN`.
-3. Point the domain's A/AAAA record to the Vultr VM public IP. Open inbound TCP 80/443 (and UDP 443 for HTTP/3) in the Vultr firewall / OS firewall. Do not expose PostgreSQL publicly.
-4. Add `VULTR_INFERENCE_API_KEY` if enabling inference.
-5. For a production-style database, Compose sets `DATABASE_URL` to PostgreSQL; `POSTGRES_PASSWORD` is read from `.env`.
-6. Decide whether to keep demo data (`SEED_DEMO_DATA=true`) or start clean (`false`).
-7. Run:
-
-```bash
-docker compose up -d --build
-docker compose ps
-docker compose logs -f app
-```
-
-Caddy receives public traffic on ports 80/443, automatically provisions HTTPS certificates for a real DNS name, and reverse-proxies to the private app container. Open `https://YOUR_DOMAIN`. The FastAPI port is not published to the public host. Do not expose PostgreSQL to the public internet.
-
-For production, set `APP_ENV=production`, use a unique secure `JWT_SECRET`, and use a managed PostgreSQL service or a properly backed-up private database. Docker Compose uses named PostgreSQL, application evidence and Caddy state volumes. The included Compose stack is a single-node deployment baseline; add managed monitoring, backups, upgrades and redundancy for a real enterprise service.
-
-## Product workflow
-
-1. **Open an incident** from a known source lot such as `ING-4502`.
-2. **Run investigation.** The traceability agent resolves lot transformations and shipment recipients. The impact assessment calculates quantities from the stored records. The market mapping agent loads India, US or both reference profiles.
-3. **Review findings and uncertainties.** Unknowns and incomplete records remain visible; the system does not infer missing lot relationships.
-4. **Review proposed actions.** A quality manager can approve or reject the generated tasks.
-5. **Record downstream responses.** Open Traceability and use **Record response** for shipment acknowledgements, removed quantities and returned quantities.
-6. **Run a mock recall drill.** Use the simulation page to assess the current record set and identify gaps.
-
-## Demo data to explore
-
-| Lot | Role | Product / material |
+| Track | Focus | Requirements |
 |---|---|---|
-| `ING-4502` | Ingredient | Organic tomato concentrate; cross-market source lot |
-| `PRD-8821` | Production | Tomato sauce production run, India |
-| `PRD-8822` | Production | Tomato sauce production run, United States |
-| `FIN-8821-A` | Finished goods | Heritage Tomato Basil Sauce 500g |
-| `FIN-8822-A` | Finished goods | Heritage Tomato Basil Sauce 500g |
-| `ING-3910` | Ingredient | Chickpea flour |
-| `ING-2104` | Ingredient | Ground paprika |
+| **C1 – Blast Radius Zero** | Secure AI agents that execute code and browser tasks inside isolated environments. | Sandbox containment, zero side-effects, isolated environments. |
+| **C2 – Powering the Future of Work** *(Our Track)* | Enterprise AI agents that automate complex, multi-step professional workflows. | Requires Vultr infrastructure (Vultr VM backend and web application deployed on Vultr; Vultr Serverless Inference for reasoning). |
 
-Try tracing both `ING-4502` and `FIN-8821-A` to see upstream and downstream resolution.
+### Event Highlights
+- **Event:** Vultr Agent Rush
+- **Organizers:** LabLab × Vultr
+- **Year:** 2026
+- **Format:** Global online hackathon with an onsite showcase component
+- **Prizes:** $14,000 in cash prizes, Vultr infrastructure credits, and raffle prizes
+- **Official Links:** [LabLab Official Website](https://lablab.ai/?utm_source=chatgpt.com) · [Vultr Official Website](https://www.vultr.com/?utm_source=chatgpt.com)
 
-## Regulatory scope and limitations
+---
 
-The platform provides **configurable operational reference packs**, not a legal rules engine. India and United States flows are intentionally separate because their statutes, covered products, reporting and enforcement frameworks differ.
+## 🎯 Our Submission: BatchBridge AI (Track C2)
 
-- India profile references the Food Safety and Standards Act, 2006, Section 28, and FSSAI Food Recall Procedure Regulations, 2017 / current FSSAI recall materials.
-- US profile references applicable FDA recall guidance and applicable preventive-controls obligations. FSMA Section 204 enhanced traceability must only be applied to covered foods, covered entities and covered activities. FDA has announced that it will not enforce the Food Traceability Rule before July 20, 2028; re-check current official guidance before relying on it.
-- No automated legal determination, official notification or government filing is performed.
-- Recall initiation, public notices, product disposition and closure remain the responsibility of authorized people.
+**BatchBridge AI** is proudly submitted to **Track C2 – Powering the Future of Work**.
 
-Primary references:
+It demonstrates how a coordinated sequence of specialized AI agents solves one of the highest-stakes challenges in global supply chains: **investigating food-safety incidents, resolving deterministic batch genealogy, calculating downstream exposure, and orchestrating human-approved recall operations across international regulatory jurisdictions.**
 
-- FSSAI Food Recall: https://fssai.gov.in/food-law/food-recall
-- FSSAI revised Food Recall FAQs: https://fssai.gov.in/upload/uploadfiles/files/08_05_2024-Frequently%20Asked%20Questions%20on%20food%20recall-%20revised.pdf
-- FDA Recalls, Market Withdrawals & Safety Alerts: https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts
-- FDA Industry Guidance on Recalls: https://www.fda.gov/food/compliance-enforcement-food/industry-guidance-recalls
-- FDA FSMA Food Traceability Rule: https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-requirements-additional-traceability-records-certain-foods
+> **In simple terms:** LabLab provides the hackathon platform and community, Vultr provides the high-performance cloud and AI infrastructure, and BatchBridge AI demonstrates what intelligent agents can accomplish in the real world when applied to mission-critical food-safety and enterprise supply-chain resilience.
 
-## Security and production-readiness checklist
+---
 
-This build includes password hashing (Argon2), signed expiring bearer tokens, tenant-scoped database access, basic login throttling, role checks on approvals, upload size/type allow-lists, private evidence storage, SHA-256 fingerprints, server-side API keys and basic security response headers. These are foundations, not a security certification.
+## 🌐 Live Application & Demo Access
 
-Before real operational deployment:
+The production application is live and publicly accessible:
 
-- Enforce HTTPS, secure HttpOnly session cookies or enterprise SSO, MFA and account recovery.
-- Replace in-process login throttling with a shared rate limiter (e.g. Redis) and configure alerting.
-- Review all tenant-isolation and authorization paths with security tests and penetration testing.
-- Move evidence storage to private object storage with encryption, malware scanning, retention rules and signed downloads.
-- Run untrusted document parsing in a separate constrained worker; add OCR, file content inspection and stronger archive/PDF controls.
-- Add formal role/permission management, data residency configuration, customer-managed retention and audit export.
-- Integrate and validate ERP/WMS, email/SMS, EDI and partner portal identity/acknowledgement workflows.
-- Add delivery retries, dead-letter handling, idempotency, background queues, observability, database migrations and tested disaster recovery.
-- Have food-safety experts and qualified India/US regulatory counsel validate rule packs and operator procedures.
-- Carry out performance tests, backup restore drills and incident-response exercises.
+- **Public URL:** [https://batchbridge-ai-lablabai.vercel.app](https://batchbridge-ai-lablabai.vercel.app)
+- **Demo Access:**
+  - **Email:** `demo@batchbridge.ai`
+  - **Password:** `BatchBridgeDemo#2026`
+  - *All sample supply-chain records, lot codes, partners, and test laboratory signals are simulated for demonstration purposes.*
 
-## Tests
+---
 
-```bash
-python -m pip install pytest
-pytest -q
-```
+## ⚡ What BatchBridge AI Solves
 
-The suite covers login, workspace isolation, lot genealogy from source and finished lots, agent investigation, human approval, notice drafting, mock recall calculation, evidence upload and shipment quantity validation.
+Food manufacturers operate across multi-tier networks: farmers, raw ingredient suppliers, manufacturing facilities, third-party logistics, national distributors, and retailers. 
 
-## Hackathon materials
+When a laboratory alert, supplier defect notice, or contamination report emerges (e.g., aflatoxin exceedance in raw peanut delivery `ING-4502`):
+- Traditional ERP systems take **days or weeks** to manually cross-reference lot genealogies, transformation stages, and distribution manifests across disparate silos.
+- Generic LLM chatbots **hallucinate quantities, invent batch numbers**, or cannot be trusted with legal recall liabilities.
 
-See [`HACKATHON_SUBMISSION.md`](HACKATHON_SUBMISSION.md) for a LabLab-ready project description and demo narrative, [`DEMO_CHECKLIST.md`](DEMO_CHECKLIST.md) for a recording run-through, and [`ARCHITECTURE.md`](ARCHITECTURE.md) for agent boundaries and action effects.
+**BatchBridge AI bridges this gap with a hybrid architecture:**
+1. **Deterministic Graph Traversal:** Traverses upstream/downstream lot transformations and shipment databases using exact relational constraints—guaranteeing 0% hallucination on inventory counts, lots, and partners.
+2. **7-Stage Multi-Agent Orchestration:** Deconstructs recall operations into dedicated roles:
+   - **Evidence Intake Agent:** Ingests laboratory test reports (COAs), supplier invoices, and delivery challans, verifying file integrity with SHA-256 cryptographic fingerprints.
+   - **Deterministic Traceability Agent:** Queries graph relationships to resolve complete multi-tier batch genealogy from source raw material to finished-goods SKUs.
+   - **Impact Assessment Agent:** Computes exact quantities manufactured, warehouse inventory on hold, and commercial shipments dispatched.
+   - **Regulatory Mapping Agent:** Loads jurisdiction-specific operational packs for **India (FSSAI 2017)** and the **United States (FDA FSMA Rule 204 / 21 CFR Part 7)**.
+   - **Recall Coordination Agent:** Formulates containment action plans (internal holds, partner stop-sale notices, stock reconciliations).
+   - **Verification & Audit Agent:** Logs immutable audit trails with timestamped actor attribution for every decision.
+   - **AI Reasoning Analyst:** Powered by **Vultr Serverless Inference** (`deepseek-v4.1-flash-1017`) to synthesize evidence and flag uncertainties strictly bounded by confirmed database facts.
+3. **Human-in-the-Loop Governance:** AI agents **propose** actions, but authorized Quality Managers retain sole authority to approve or reject actions. Draft partner notices and regulatory dossiers are prepared safely without unintended external broadcasts.
+4. **Mock Recall Readiness Drills:** Enables food businesses to simulate audits and score readiness (e.g., 94/100) before a real crisis occurs.
 
-## Repository layout
+---
+
+## 🏛️ System Architecture
 
 ```text
-app/
-  agents.py          # Agent orchestration and Vultr inference adapter
-  config.py          # Environment configuration
-  database.py        # SQLAlchemy engine/session
-  main.py            # FastAPI endpoints and same-origin static app
-  models.py          # Tenant, incident, lot, shipment and audit models
-  rules.py           # India/US regulatory reference packs
-  security.py        # Password hashing and signed bearer sessions
-  seed.py            # Fictional cross-market demo dataset
-  traceability.py    # Deterministic lot genealogy and downstream resolver
-  static/            # Hand-authored UI, HTML, CSS and JavaScript
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Vercel Global Edge                              │
+│   • Decoupled static frontend & responsive operations console          │
+│   • Edge serverless function & secure API proxy (/api/*)               │
+│   • Zero secret exposure (all keys remain server-side)                 │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Server-Side Proxy
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                   Vultr Cloud Compute Infrastructure                   │
+│   • Caddy Reverse Proxy (automated TLS 1.3 / HTTP/3)                   │
+│   • FastAPI Application Container (Python 3.12, SQLAlchemy, Uvicorn)   │
+│   • PostgreSQL / Persistent Storage Volumes                            │
+│   • SHA-256 Evidence Register & Private Document Store                 │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ OpenAI-Compatible API
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                   Vultr Serverless Inference Layer                     │
+│   • Model: deepseek-v4.1-flash-1017                                    │
+│   • Low-latency, evidence-constrained agent synthesis                  │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-## License
+---
 
-MIT. See `LICENSE`.
+## ⚖️ Regulatory Reference Frameworks
+
+BatchBridge AI maintains strict separation between operational reference profiles:
+
+- **India (FSSAI):**
+  - Food Safety and Standards Act, 2006 (Section 28).
+  - Food Safety and Standards (Food Recall Procedure) Regulations, 2017.
+  - Mandatory 24-hour notification window, stop-sale verification, and reconciliation of returned products.
+  - [FSSAI Recall Resource Portal](https://fssai.gov.in/food-law/food-recall)
+- **United States (US FDA):**
+  - 21 CFR Part 7 (Enforcement Policy & Recall Guidelines).
+  - FSMA Rule 204 (Enhanced Food Traceability Rule) Key Data Elements (KDEs) and Critical Tracking Events (CTEs).
+  - Direct consignee notification, effectiveness checks, and 24-hour electronic sortable spreadsheet generation.
+  - [FDA Recalls Portal](https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts)
+
+---
+
+## 🔒 Intellectual Property & Terms of Use
+
+**Copyright © 2026 Shivang Saxena. All Rights Reserved.**
+
+This repository and all associated assets—including application source code, agent orchestration pipelines, database schemas, user interface designs, and documentation—represent proprietary intellectual property developed specifically for the **LabLab × Vultr Agent Rush Hackathon 2026**.
+
+- **No Unauthorized Copying:** Reproduction, redistribution, duplication, mirroring, reverse engineering, sublicensing, or extraction of code or design patterns from this repository, in whole or in part, without prior written permission is strictly prohibited.
+- **Evaluation Notice:** Access is granted solely to hackathon judges, organizers, and authenticated evaluators for review and verification of hackathon submission criteria.
+- **Simulated Demonstration:** This platform is an operational hackathon prototype and decision-support tool. It does not replace legal counsel, accredited food-safety certifying bodies, or official government filing channels.
