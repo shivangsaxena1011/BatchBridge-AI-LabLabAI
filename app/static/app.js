@@ -147,7 +147,7 @@
       <div class="app-shell">
         <aside class="sidebar" id="sidebar">
           <div class="brand"><div class="brand-mark">${icon('logo')}</div><div><div class="brand-name" style="color:#f4f8f4">BatchBridge AI</div><div class="brand-sub">Recall operations</div></div></div>
-          <div class="workspace-switch"><div class="workspace-avatar">NF</div><div class="workspace-meta"><div class="workspace-label">WORKSPACE</div><div class="workspace-name">${esc(state.settings?.tenant?.name || 'Northstar Foods Group')}</div></div>${icon('chevron')}</div>
+          <div class="workspace-switch"><div class="workspace-avatar">${initials(state.settings?.tenant?.name || 'Heritage Organics')}</div><div class="workspace-meta"><div class="workspace-label">WORKSPACE</div><div class="workspace-name">${esc(state.settings?.tenant?.name || 'Heritage Organics Ltd.')}</div></div>${icon('chevron')}</div>
           <div class="nav-section-label">Operations</div>
           <nav class="nav-list">
             ${navItem('overview','Command center','overview')}
@@ -511,7 +511,7 @@
     const note = prompt('Partner response note (optional):', 'Acknowledgement recorded during recall drill') || '';
     try {
       const result = await api(`/api/shipments/${id}/acknowledgement`, { method: 'POST', body: JSON.stringify({ acknowledgement: 'acknowledged', removed_quantity: Number(removedRaw), returned_quantity: Number(returnedRaw), note }) });
-      state.trace = null; await refreshData(); renderView(); toast(`Response recorded for ${result.reference}.`);
+      state.trace = null; await refreshData(); renderView(); toast(`Response recorded for ${result.reference || 'shipment'}.`);
     } catch (err) { toast(err.message, true); }
   }
   async function uploadEvidence(e) {

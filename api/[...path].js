@@ -316,9 +316,12 @@ export default async function handler(req, res) {
   }
 
   if (path === "auth/register") {
-    const { email, full_name, company_name } = req.body || {};
-    const tenant = { name: company_name || "New Org", slug: "new-org", plan: "standard", markets: ["IN", "US"] };
-    const user = { id: 2, email: email || "user@demo.ai", full_name: full_name || "User", role: "quality_manager", tenant_id: 1 };
+    const { email, full_name, organization, company_name } = req.body || {};
+    const orgName = organization || company_name || "Heritage Organics Ltd.";
+    DEMO_TENANT.name = orgName;
+    DEMO_TENANT.slug = orgName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const tenant = { ...DEMO_TENANT, plan: "pilot" };
+    const user = { id: 2, email: email || "user@demo.ai", full_name: full_name || "Operations Lead", role: "quality_manager", tenant_id: 1 };
     return res.status(200).json({
       access_token: "mock-jwt-token-vercel-preview-2026",
       token_type: "bearer",
@@ -356,7 +359,7 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
       const newInc = {
         id: DEMO_INCIDENTS.length + 1,
-        code: `INC-2026-08${40 + DEMO_INCIDENTS.length + 1}`,
+        code: `INC-2026-08${String(40 + DEMO_INCIDENTS.length + 1).padStart(2, "0")}`,
         title: req.body?.title || "Incident Report",
         product_name: req.body?.product_name || "Organic Food Product",
         lot_code: req.body?.lot_code || "ING-4502",
@@ -376,6 +379,7 @@ export default async function handler(req, res) {
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       };
+      DEMO_INCIDENTS.unshift(newInc);
       return res.status(201).json(newInc);
     }
     return res.status(200).json({ items: DEMO_INCIDENTS, total: DEMO_INCIDENTS.length });
@@ -406,16 +410,18 @@ export default async function handler(req, res) {
   }
 
   if (path.startsWith("incidents/")) {
+    const idMatch = path.match(/^incidents\/(\d+)$/);
+    const incId = idMatch ? parseInt(idMatch[1], 10) : DEMO_INCIDENTS[0].id;
+    const targetInc = DEMO_INCIDENTS.find(i => i.id === incId) || DEMO_INCIDENTS[0];
+
     if (req.method === "PATCH") {
-      return res.status(200).json({
-        ...DEMO_INCIDENTS[0],
-        status: req.body?.status || DEMO_INCIDENTS[0].status,
-        owner: req.body?.owner || DEMO_INCIDENTS[0].owner,
-        updated_at: new Date().toISOString()
-      });
+      if (req.body?.status) targetInc.status = req.body.status;
+      if (req.body?.owner) targetInc.owner = req.body.owner;
+      targetInc.updated_at = new Date().toISOString();
+      return res.status(200).json(targetInc);
     }
     return res.status(200).json({
-      incident: DEMO_INCIDENTS[0],
+      incident: targetInc,
       actions: DEMO_ACTIONS,
       activities: DEMO_ACTIVITIES,
       documents: DEMO_DOCUMENTS,
@@ -424,11 +430,35 @@ export default async function handler(req, res) {
   }
 
   if (path.startsWith("actions/") && path.includes("/decision") && req.method === "POST") {
+    const actionMatch = path.match(/^actions\/(\d+)\/decision$/);
+    const actionId = actionMatch ? parseInt(actionMatch[1], 10) : 1;
     const decision = req.body?.decision || "approve";
+    const reason = req.body?.reason || "";
+    const action = DEMO_ACTIONS.find(a => a.id === actionId);
+    let sideEffect = `Action ${decision}d.`;
+
+    if (action) {
+      action.status = decision === "approve" ? "approved" : "rejected";
+      if (decision === "approve") {
+        if (action.action_type === "quarantine_inventory") {
+          DEMO_TRACE.lots.forEach(l => { if (l.type === "finished") l.status = "quarantined"; });
+          sideEffect = "Internal quality state updated for 4 affected finished-goods lots. This does not physically stop shipment.";
+        } else if (action.action_type === "notify_partner") {
+          sideEffect = "Created 5 recipient-specific notice drafts. No external message was sent.";
+        } else if (action.action_type === "request_acknowledgement") {
+          DEMO_TRACE.shipments.forEach(s => { if (s.acknowledgement === "pending") s.acknowledgement = "requested"; });
+          sideEffect = "Updated acknowledgement tracking for 6 shipment records. This does not send an external notification.";
+        } else if (action.action_type === "regulatory_dossier") {
+          action.payload = { ...(action.payload || {}), dossier: { generated_at: new Date().toISOString(), review_required: true } };
+          sideEffect = "A structured dossier snapshot was generated for authorized review. It is not an official regulatory filing.";
+        }
+      }
+    }
     return res.status(200).json({
-      status: "success",
+      action: action || { id: actionId, status: decision === "approve" ? "approved" : "rejected" },
+      side_effect: sideEffect,
       decision,
-      notice_count: 5,
+      notice_count: DEMO_NOTICES.length,
       updated_at: new Date().toISOString()
     });
   }
@@ -441,10 +471,16 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
       const newPartner = {
         id: DEMO_PARTNERS.length + 1,
-        ...req.body,
+        name: req.body?.name || "New Partner",
+        kind: req.body?.kind || "distributor",
+        country: req.body?.country || "IN",
+        city: req.body?.city || "Mumbai",
+        contact_name: req.body?.contact_name || "",
+        email: req.body?.email || "",
         status: "active",
         risk_score: 15
       };
+      DEMO_PARTNERS.push(newPartner);
       return res.status(201).json(newPartner);
     }
     return res.status(200).json({ items: DEMO_PARTNERS, total: DEMO_PARTNERS.length });
@@ -472,7 +508,21 @@ export default async function handler(req, res) {
   }
 
   if (path.startsWith("shipments/") && path.includes("/acknowledgement")) {
+    const shipmentMatch = path.match(/^shipments\/(\d+)\/acknowledgement$/);
+    const sId = shipmentMatch ? parseInt(shipmentMatch[1], 10) : 1;
+    const shipment = DEMO_TRACE.shipments.find(s => s.id === sId) || DEMO_TRACE.shipments[0];
+    if (shipment) {
+      shipment.acknowledgement = req.body?.acknowledgement || "acknowledged";
+      if (req.body?.removed_quantity !== undefined) shipment.removed_quantity = req.body.removed_quantity;
+      if (req.body?.returned_quantity !== undefined) shipment.returned_quantity = req.body.returned_quantity;
+      if (req.body?.note) shipment.recall_note = req.body.note;
+    }
     return res.status(200).json({
+      id: shipment ? shipment.id : sId,
+      reference: shipment ? shipment.reference : `SHP-2026-00${sId}`,
+      acknowledgement: shipment ? shipment.acknowledgement : "acknowledged",
+      removed_quantity: shipment ? shipment.removed_quantity || 0 : 0,
+      returned_quantity: shipment ? shipment.returned_quantity || 0 : 0,
       status: "acknowledged",
       updated_at: new Date().toISOString()
     });
