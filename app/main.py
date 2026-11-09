@@ -373,13 +373,47 @@ def agent_runs(user: User = Depends(get_current_user), db: Session = Depends(get
 
 @app.get("/api/ai/status")
 def ai_status(user: User = Depends(get_current_user)):
-    return {"configured": bool(settings.vultr_api_key), "provider": "Vultr Serverless Inference" if settings.vultr_api_key else "Local deterministic fallback", "base_url": settings.vultr_base_url, "model": settings.vultr_model if settings.vultr_api_key else "rules-engine", "key_present": bool(settings.vultr_api_key), "key_exposed": False}
+    return {
+        "configured": settings.has_ai_configured,
+        "provider": settings.active_ai_provider,
+        "base_url": settings.active_ai_base_url,
+        "model": settings.active_ai_model,
+        "key_present": settings.has_ai_configured,
+        "key_exposed": False,
+        "available_providers": [
+            {"id": "gemini", "name": "Google Gemini", "model": settings.gemini_model, "configured": bool(settings.gemini_api_key)},
+            {"id": "vultr", "name": "Vultr Serverless Inference", "model": settings.vultr_model, "configured": bool(settings.vultr_api_key)},
+        ]
+    }
 
 @app.post("/api/ai/test")
 def ai_test(user: User = Depends(get_current_user)):
     if user.role not in ("admin", "quality_manager"):
         raise HTTPException(403, "Administrator or quality manager role required")
-    if not settings.vultr_api_key: raise HTTPException(409, "VULTR_INFERENCE_API_KEY is not configured on the server")
+    if not settings.has_ai_configured:
+        raise HTTPException(409, "Neither GEMINI_API_KEY nor VULTR_INFERENCE_API_KEY is configured on the server")
+    
+    # Priority 1: Google Gemini (if configured)
+    if settings.gemini_api_key:
+        headers = {"Authorization": f"Bearer {settings.gemini_api_key}", "Content-Type": "application/json"}
+        payload = {
+            "model": settings.gemini_model,
+            "messages": [{"role": "user", "content": "Ping: confirm operational readiness in 3 words."}],
+            "max_completion_tokens": 50,
+            "temperature": 0.1
+        }
+        try:
+            response = httpx.post(f"{settings.gemini_base_url.rstrip('/')}/chat/completions", headers=headers, json=payload, timeout=settings.ai_timeout_seconds)
+            response.raise_for_status()
+            data = response.json()
+            reply = data.get("choices", [{}])[0].get("message", {}).get("content", "Ready").strip()
+            return {"ok": True, "provider": "Google Gemini", "model": settings.gemini_model, "detail": reply}
+        except httpx.HTTPStatusError as exc:
+            raise HTTPException(502, f"Google Gemini API returned HTTP {exc.response.status_code}")
+        except Exception:
+            raise HTTPException(502, "Could not reach Google Gemini API. Check server network and GEMINI_API_KEY.")
+
+    # Priority 2: Vultr Serverless Inference
     headers = {"Authorization": f"Bearer {settings.vultr_api_key}"}
     try:
         response = httpx.get(f"{settings.vultr_base_url.rstrip('/')}/models", headers=headers, timeout=15)
@@ -388,7 +422,7 @@ def ai_test(user: User = Depends(get_current_user)):
         return {"ok": True, "provider": "Vultr Serverless Inference", "model": settings.vultr_model, "available_models": len(data.get("data", []))}
     except httpx.HTTPStatusError as exc:
         raise HTTPException(502, f"Vultr inference returned HTTP {exc.response.status_code}")
-    except Exception as exc:
+    except Exception:
         raise HTTPException(502, "Could not reach Vultr Serverless Inference. Check server network, key and base URL.")
 
 @app.get("/api/activities")
@@ -451,7 +485,17 @@ def get_evidence_text(incident_id: int, document_id: int, user: User = Depends(g
 @app.get("/api/settings/workspace")
 def workspace_settings(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     tenant = db.query(Tenant).filter(Tenant.id == user.tenant_id).first()
-    return {"tenant": {"name": tenant.name, "slug": tenant.slug, "plan": tenant.plan, "markets": tenant.markets}, "user": _user_dict(user), "ai": {"configured": bool(settings.vultr_api_key), "provider": "Vultr Serverless Inference" if settings.vultr_api_key else "Local deterministic fallback", "model": settings.vultr_model if settings.vultr_api_key else "rules-engine"}, "limits": {"max_upload_mb": settings.max_upload_mb}}
+    return {
+        "tenant": {"name": tenant.name, "slug": tenant.slug, "plan": tenant.plan, "markets": tenant.markets},
+        "user": _user_dict(user),
+        "ai": {
+            "configured": settings.has_ai_configured,
+            "provider": settings.active_ai_provider,
+            "model": settings.active_ai_model,
+            "base_url": settings.active_ai_base_url
+        },
+        "limits": {"max_upload_mb": settings.max_upload_mb}
+    }
 
 # Static application served by the same origin as the API.
 assets_dir = STATIC_DIR / "assets" if (STATIC_DIR / "assets").is_dir() else STATIC_DIR

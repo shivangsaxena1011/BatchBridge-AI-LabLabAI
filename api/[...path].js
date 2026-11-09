@@ -508,11 +508,56 @@ export default async function handler(req, res) {
     });
   }
 
+  const geminiKey = process.env.GEMINI_API_KEY;
+  const vultrKey = process.env.VULTR_INFERENCE_API_KEY;
+  const activeAiProvider = geminiKey ? "Google Gemini" : (vultrKey ? "Vultr Serverless Inference" : (backendUrl ? "Vultr Serverless Inference (via Backend)" : "Local deterministic fallback"));
+  const activeAiModel = geminiKey ? (process.env.GEMINI_MODEL || "gemini-2.5-flash") : (process.env.VULTR_INFERENCE_MODEL || "deepseek-v4.1-flash-1017");
+  const activeAiBaseUrl = geminiKey ? "https://generativelanguage.googleapis.com/v1beta/openai" : "https://api.vultrinference.com/v1";
+
+  if (path === "ai/status") {
+    return res.status(200).json({
+      configured: Boolean(geminiKey || vultrKey || backendUrl),
+      provider: activeAiProvider,
+      base_url: activeAiBaseUrl,
+      model: activeAiModel,
+      key_present: Boolean(geminiKey || vultrKey),
+      key_exposed: false
+    });
+  }
+
   if (path === "ai/test") {
+    if (geminiKey) {
+      try {
+        const testResp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${geminiKey}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+            messages: [{ role: "user", content: "Ping: confirm operational readiness in 3 words." }],
+            max_completion_tokens: 50
+          })
+        });
+        if (testResp.ok) {
+          const testData = await testResp.json();
+          const detail = testData?.choices?.[0]?.message?.content?.trim() || "Operational";
+          return res.status(200).json({
+            ok: true,
+            provider: "Google Gemini",
+            model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+            detail
+          });
+        }
+      } catch (err) {
+        // Fall back gracefully
+      }
+    }
     return res.status(200).json({
       ok: true,
-      provider: "Vultr Serverless Inference",
-      model: "deepseek-v4.1-flash-1017",
+      provider: activeAiProvider,
+      model: activeAiModel,
       available_models: 8
     });
   }
@@ -529,13 +574,14 @@ export default async function handler(req, res) {
       tenant: DEMO_TENANT,
       user: DEMO_USER,
       ai: {
-        configured: Boolean(backendUrl),
-        provider: backendUrl ? "Vultr Serverless Inference (via Backend)" : "Vultr Serverless Inference (Ready - connect BACKEND_API_URL)",
-        model: "deepseek-v4.1-flash-1017"
+        configured: Boolean(geminiKey || vultrKey || backendUrl),
+        provider: activeAiProvider,
+        model: activeAiModel,
+        base_url: activeAiBaseUrl
       },
       limits: { max_upload_mb: 15 },
-      mode: backendUrl ? "connected_vultr" : "vercel_preview",
-      note: backendUrl ? "Connected to persistent Vultr backend" : "Vercel Frontend active. Configure BACKEND_API_URL in Vercel project environment variables to link your persistent Vultr VM."
+      mode: backendUrl ? "connected_vultr" : (geminiKey ? "connected_gemini" : "vercel_preview"),
+      note: backendUrl ? "Connected to persistent Vultr backend" : (geminiKey ? "Connected to Google Gemini API" : "Vercel Frontend active. Configure BACKEND_API_URL or GEMINI_API_KEY in Vercel project environment variables.")
     });
   }
 

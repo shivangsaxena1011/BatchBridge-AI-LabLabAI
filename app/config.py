@@ -26,12 +26,46 @@ class Settings(BaseModel):
     jwt_expire_minutes: int = int(os.getenv("JWT_EXPIRE_MINUTES", "720"))
     cors_origins: list[str] = [x.strip() for x in os.getenv("CORS_ORIGINS", "http://localhost:8000,http://127.0.0.1:8000").split(",") if x.strip()]
     max_upload_mb: int = int(os.getenv("MAX_UPLOAD_MB", "15"))
+    # AI Providers (Google Gemini & Vultr Serverless Inference)
+    gemini_api_key: str | None = os.getenv("GEMINI_API_KEY")
+    gemini_base_url: str = os.getenv("GEMINI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+
     vultr_api_key: str | None = os.getenv("VULTR_INFERENCE_API_KEY")
     vultr_base_url: str = os.getenv("VULTR_INFERENCE_BASE_URL", "https://api.vultrinference.com/v1")
     vultr_model: str = os.getenv("VULTR_INFERENCE_MODEL", "deepseek-v4.1-flash-1017")
     vultr_timeout_seconds: float = float(os.getenv("VULTR_INFERENCE_TIMEOUT_SECONDS", "45"))
+    ai_timeout_seconds: float = float(os.getenv("AI_TIMEOUT_SECONDS", "45"))
     demo_seed_password: str = os.getenv("DEMO_SEED_PASSWORD", "BatchBridgeDemo#2026")
     seed_demo_data: bool = os.getenv("SEED_DEMO_DATA", "true").lower() == "true"
+
+    @property
+    def has_ai_configured(self) -> bool:
+        return bool(self.gemini_api_key or self.vultr_api_key)
+
+    @property
+    def active_ai_provider(self) -> str:
+        if self.gemini_api_key:
+            return "Google Gemini"
+        if self.vultr_api_key:
+            return "Vultr Serverless Inference"
+        return "Local deterministic fallback"
+
+    @property
+    def active_ai_model(self) -> str:
+        if self.gemini_api_key:
+            return self.gemini_model
+        if self.vultr_api_key:
+            return self.vultr_model
+        return "rules-engine"
+
+    @property
+    def active_ai_base_url(self) -> str:
+        if self.gemini_api_key:
+            return self.gemini_base_url
+        if self.vultr_api_key:
+            return self.vultr_base_url
+        return ""
 
 settings = Settings()
 
