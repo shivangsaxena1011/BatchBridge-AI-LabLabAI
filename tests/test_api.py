@@ -113,4 +113,18 @@ def test_frontend_assets_and_ai_status_do_not_expose_credentials():
         assert status.status_code == 200
         body = status.json()
         assert body['key_exposed'] is False
-        assert 'api_key' not in body and 'vultr_api_key' not in body
+        assert 'api_key' not in body and 'vultr_api_key' not in body and 'gemini_api_key' not in body
+
+
+def test_search_queries_with_or_filter():
+    with TestClient(app) as client:
+        headers = _login(client)
+        # Tests the or_ filter in list_incidents
+        incidents = client.get('/api/incidents?q=tomato', headers=headers)
+        assert incidents.status_code == 200
+        assert incidents.json()['total'] >= 1
+
+        # Tests the or_ filter in list_partners
+        partners = client.get('/api/partners?q=Agro', headers=headers)
+        assert partners.status_code == 200
+        assert partners.json()['total'] >= 1

@@ -382,11 +382,13 @@ export default async function handler(req, res) {
   }
 
   if (path.startsWith("incidents/") && path.endsWith("/investigate") && req.method === "POST") {
+    const providerKey = geminiKey ? "gemini" : (vultrKey ? "vultr" : "local");
     return res.status(200).json({
       incident: DEMO_INCIDENTS[0],
       trace: DEMO_TRACE,
       actions: DEMO_ACTIONS,
       agents: DEMO_INCIDENTS[0].analysis.agents,
+      run: { id: 2, provider: providerKey, model: activeAiModel, duration_ms: 220 },
       narrative: "Investigation complete. Raw material ING-4502 traced through 2 production batches into 4 finished goods lots. 13,200 consumer units have been dispatched to 5 downstream partners across India and US markets. Regulatory stop-sale notices drafted with human approval gates.",
       execution_time_seconds: 0.82
     });

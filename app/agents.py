@@ -15,6 +15,14 @@ def _compact_json(value) -> str:
 
 
 def _call_model(prompt: str) -> tuple[str, str, str]:
+    if settings.app_env == "test":
+        return json.dumps({
+            "summary": "Automated test incident review completed.",
+            "key_findings": ["Genealogy trace resolved affected lots.", "Shipment acknowledgements required."],
+            "uncertainties": ["Laboratory results subject to qualified confirmation."],
+            "recommended_next_steps": ["Execute internal quality hold on affected finished lots."]
+        }), "test_mock", "test-rules"
+
     # Priority 1: Google Gemini API (if GEMINI_API_KEY is configured)
     if settings.gemini_api_key:
         headers = {"Authorization": f"Bearer {settings.gemini_api_key}", "Content-Type": "application/json"}

@@ -84,7 +84,7 @@ When a laboratory alert, supplier defect notice, or contamination report emerges
    - **Regulatory Mapping Agent:** Loads jurisdiction-specific operational packs for **India (FSSAI 2017)** and the **United States (FDA FSMA Rule 204 / 21 CFR Part 7)**.
    - **Recall Coordination Agent:** Formulates containment action plans (internal holds, partner stop-sale notices, stock reconciliations).
    - **Verification & Audit Agent:** Logs immutable audit trails with timestamped actor attribution for every decision.
-   - **AI Reasoning Analyst:** Powered by **Vultr Serverless Inference** (`deepseek-v4.1-flash-1017`) to synthesize evidence and flag uncertainties strictly bounded by confirmed database facts.
+   - **AI Reasoning Analyst:** Powered by **Google Gemini** (`gemini-2.5-flash`) or **Vultr Serverless Inference** (`deepseek-v4.1-flash-1017`) to synthesize evidence and flag uncertainties strictly bounded by confirmed database facts.
 3. **Human-in-the-Loop Governance:** AI agents **propose** actions, but authorized Quality Managers retain sole authority to approve or reject actions. Draft partner notices and regulatory dossiers are prepared safely without unintended external broadcasts.
 4. **Mock Recall Readiness Drills:** Enables food businesses to simulate audits and score readiness (e.g., 94/100) before a real crisis occurs.
 
@@ -99,22 +99,24 @@ When a laboratory alert, supplier defect notice, or contamination report emerges
 │   • Edge serverless function & secure API proxy (/api/*)               │
 │   • Zero secret exposure (all keys remain server-side)                 │
 └───────────────────────────────────┬────────────────────────────────────┘
-                                    │ Server-Side Proxy
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Vultr Cloud Compute Infrastructure                   │
-│   • Caddy Reverse Proxy (automated TLS 1.3 / HTTP/3)                   │
-│   • FastAPI Application Container (Python 3.12, SQLAlchemy, Uvicorn)   │
-│   • PostgreSQL / Persistent Storage Volumes                            │
-│   • SHA-256 Evidence Register & Private Document Store                 │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │ OpenAI-Compatible API
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Vultr Serverless Inference Layer                     │
-│   • Model: deepseek-v4.1-flash-1017                                    │
-│   • Low-latency, evidence-constrained agent synthesis                  │
-└────────────────────────────────────────────────────────────────────────┘
+                                    │
+                  ┌─────────────────┴─────────────────┐
+                  │ Optional Backend Proxy            │ Direct Edge LLM Call
+                  ▼                                   ▼
+┌──────────────────────────────────────┐   ┌──────────────────────────────┐
+│  Vultr Cloud Compute Infrastructure  │   │     Google Gemini API        │
+│  • Caddy Reverse Proxy (TLS 1.3/H3)  │   │  • Model: gemini-2.5-flash   │
+│  • FastAPI Container (Python 3.12)   │   │  • Low-latency reasoning     │
+│  • PostgreSQL & Persistent Storage   │   │  • Zero frontend exposure    │
+│  • SHA-256 Private Document Store    │   └──────────────────────────────┘
+└──────────────────┬───────────────────┘
+                   │ OpenAI-Compatible API
+                   ▼
+┌──────────────────────────────────────┐
+│   Vultr Serverless Inference Layer   │
+│   • Model: deepseek-v4.1-flash-1017  │
+│   • Evidence-constrained synthesis   │
+└──────────────────────────────────────┘
 ```
 
 ---

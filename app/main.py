@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, EmailStr, Field
-from sqlalchemy import func, desc
+from sqlalchemy import func, desc, or_
 from sqlalchemy.orm import Session
 
 from app.config import settings, STATIC_DIR, UPLOAD_DIR
