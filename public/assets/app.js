@@ -162,10 +162,6 @@
             ${navItem('compliance','Regulatory profiles','compliance')}
             ${navItem('settings','Workspace settings','settings')}
           </nav>
-          <div class="nav-section-label" style="margin-top:24px">Mission Control UI</div>
-          <nav class="nav-list">
-            <a href="/stitch/incident_command_triage/code.html" class="nav-item" style="color:#adc6ff;background:rgba(77,142,255,0.08);border:1px solid rgba(77,142,255,0.2);margin-top:4px">${icon('agents')}<span style="font-weight:600">Stitch UI Demo</span><span class="nav-count" style="background:#4d8eff;color:#001a42">NEW</span></a>
-          </nav>
           <div class="sidebar-spacer"></div>
           <div class="sidebar-bottom">
             <div class="environment-card"><span class="environment-dot"></span><span>Workspace operational</span></div>
@@ -177,7 +173,6 @@
             <button class="mobile-menu" data-action="mobile-menu">☰</button>
             <div class="breadcrumb">Northstar Foods <span style="color:#c3ccc5;margin:0 6px">/</span> <strong>${esc(viewTitle(state.view))}</strong></div>
             <div class="topbar-spacer"></div>
-            <a href="/stitch/incident_command_triage/code.html" class="button" style="background:#0f131c;color:#adc6ff;border:1px solid #4d8eff;font-size:11px;font-weight:600;padding:5px 12px;border-radius:6px;display:flex;align-items:center;gap:6px;text-decoration:none"><span style="font-size:13px">✨</span><span>Mission Control (Stitch UI)</span></a>
             <button class="search-trigger" data-action="global-search">${icon('search')}<span class="search-label">Search incidents, lots, partners</span><span class="search-shortcut">⌘ K</span></button>
             <select class="market-select" id="market-select" aria-label="Market filter"><option value="GLOBAL" ${state.market==='GLOBAL'?'selected':''}>All markets</option><option value="IN" ${state.market==='IN'?'selected':''}>India · IN</option><option value="US" ${state.market==='US'?'selected':''}>United States · US</option></select>
             <button class="topbar-icon" title="Pending acknowledgements" data-action="navigate" data-view="partners">${icon('bell')}${unread ? '<span class="notification-dot"></span>' : ''}</button>
