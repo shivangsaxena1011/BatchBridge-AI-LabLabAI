@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary-fixed-variant": "#004e5c", "primary-container": "#4d8eff", "on-tertiary-fixed": "#001f26", "surface-container-lowest": "#0a0e16", "on-primary-fixed": "#001a42", "inverse-surface": "#dfe2ee", "on-primary-fixed-variant": "#004395", "error": "#ffb4ab", "inverse-primary": "#005ac2", "error-container": "#93000a", "secondary": "#d0bcff", "on-background": "#dfe2ee", "on-secondary-container": "#c4abff", "secondary-fixed-dim": "#d0bcff", "outline": "#8c909f", "on-secondary-fixed-variant": "#5516be", "on-error": "#690005", "on-tertiary-container": "#002f38", "on-secondary-fixed": "#23005c", "tertiary-fixed": "#acedff", "on-tertiary": "#003640", "tertiary-container": "#009eb9", "outline-variant": "#424754", "surface-container": "#1c2028", "surface-bright": "#353942", "surface-container-high": "#262a33", "on-error-container": "#ffdad6", "secondary-fixed": "#e9ddff", "surface-tint": "#adc6ff", "on-primary-container": "#00285d", "primary-fixed-dim": "#adc6ff", "surface-container-highest": "#31353e", "secondary-container": "#571bc1", "surface": "#0f131c", "inverse-on-surface": "#2c3039", "primary": "#adc6ff", "primary-fixed": "#d8e2ff", "tertiary-fixed-dim": "#4cd7f6", "surface-variant": "#31353e", "surface-dim": "#0f131c", "on-secondary": "#3c0091", "tertiary": "#4cd7f6", "on-surface-variant": "#c2c6d6", "on-primary": "#002e6a", "background": "#0f131c", "on-surface": "#dfe2ee", "surface-container-low": "#181c24" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xs": "0.25rem", "margin-mobile": "1rem", "space-md": "0.75rem", "space-sm": "0.5rem", "space-lg": "1.25rem", "margin": "1.5rem", "gutter-compact": "0.5rem", "gutter": "1rem", "space-xl": "2rem" }, "fontFamily": { "headline-lg-mobile": [ "Inter" ], "body-md": [ "Inter" ], "headline-md": [ "Inter" ], "label-mono-lg": [ "JetBrains Mono" ], "display-xl": [ "Inter" ], "label-mono-md": [ "JetBrains Mono" ], "headline-sm": [ "Inter" ], "body-lg": [ "Inter" ], "label-mono-sm": [ "JetBrains Mono" ], "display-xl-mobile": [ "Inter" ], "headline-lg": [ "Inter" ], "body-sm": [ "Inter" ] }, "fontSize": { "headline-lg-mobile": [ "22px", { "lineHeight": "28px", "fontWeight": "600" } ], "body-md": [ "13px", { "lineHeight": "18px", "fontWeight": "400" } ], "headline-md": [ "20px", { "lineHeight": "26px", "fontWeight": "600" } ], "label-mono-lg": [ "14px", { "lineHeight": "18px", "fontWeight": "500" } ], "display-xl": [ "40px", { "lineHeight": "48px", "fontWeight": "700" } ], "label-mono-md": [ "12px", { "lineHeight": "16px", "fontWeight": "500" } ], "headline-sm": [ "16px", { "lineHeight": "22px", "fontWeight": "600" } ], "body-lg": [ "15px", { "lineHeight": "22px", "fontWeight": "400" } ], "label-mono-sm": [ "11px", { "lineHeight": "14px", "fontWeight": "400" } ], "display-xl-mobile": [ "30px", { "lineHeight": "36px", "fontWeight": "700" } ], "headline-lg": [ "28px", { "lineHeight": "34px", "fontWeight": "600" } ], "body-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ] } } } };</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-md"><div class="h-20 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center p-space-xs"><span class="material-symbols-outlined text-primary text-[22px]">shield_with_heart</span></div><div><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">BatchBridge AI</span><span class="px-space-xs py-0.5 rounded-DEFAULT bg-primary-container text-on-primary-container font-label-mono-sm text-label-mono-sm uppercase font-semibold">CORE</span></div><p class="font-label-mono-sm text-label-mono-sm text-on-surface-variant leading-none mt-0.5">Recall &amp; Traceability Ops</p></div></div><div class="h-7 w-[1px] bg-outline-variant/40 mx-space-xs"></div><div class="flex items-center bg-surface-container-low p-0.5 rounded-lg"><button class="px-space-sm py-1 rounded-DEFAULT bg-surface-container text-primary font-label-mono-sm text-label-mono-sm font-medium transition-all" type="button">🇺🇸 US FDA (FSMA 204)</button><button class="px-space-sm py-1 rounded-DEFAULT text-on-surface-variant hover:text-on-surface font-label-mono-sm text-label-mono-sm transition-all" type="button">🇮🇳 IN FSSAI (FSS 2017)</button></div><div class="hidden xl:flex items-center gap-space-xs px-space-sm py-1 rounded-lg bg-secondary-container/20 text-on-secondary-container font-label-mono-sm text-label-mono-sm"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span>6 Agents Online | Vultr Inference Active</span></div></div><div class="flex-1 max-w-xl mx-space-sm hidden lg:block"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-space-sm text-outline text-[18px]">search</span><input class="w-full bg-surface-container-low text-on-surface placeholder:text-outline font-label-mono-sm text-label-mono-sm pl-9 pr-space-md py-2 rounded-lg outline-none focus:bg-surface-container focus:text-on-surface transition-all" placeholder="Search Lot / Batch #, GTIN, Consignee or Facility..." type="text"/></div></div><div class="flex items-center gap-space-md shrink-0"><button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-error-container text-on-error-container hover:bg-error hover:text-on-error transition-colors font-headline-sm text-body-sm font-semibold" type="button"><span class="material-symbols-outlined text-[18px]">emergency</span><span>Initiate Rapid Recall</span></button><a href="/" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-high hover:bg-surface-bright text-primary border border-primary/20 text-xs font-semibold transition-all"><span class="material-symbols-outlined text-[16px]">arrow_back</span><span>Classic Ops</span></a><button class="relative p-2 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span></button><div class="h-7 w-[1px] bg-outline-variant/40 mx-space-xs"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="text-right hidden sm:block"><p class="font-headline-sm text-body-sm text-on-surface font-semibold leading-tight">Elena Vance</p><p class="font-label-mono-sm text-label-mono-sm text-on-surface-variant leading-none">VP Food Safety &amp; QA</p></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrA9cFi9YOc8mQr0rHwnvuvZNsOlL_7CGuKONFT_PnXCD-IDmAW6ruQ3qCbKgWtBs6WSoq8SRdyfSpWbQCW_YXpWg33vcqdmfwQk78olPqr7N6NgT09RuwdNQP7dfwuHQnxG0oqOEZz_V8urjQt6mAKdesgnR8s1-lR8EMswrzmG1YrALQe5asWRoQjYL4m3LwecHqBGYthKa1WKotaSTn87wj1gXWFH06qGuJLFA7k3Qw"/></div></div></div><nav class="w-full px-margin bg-surface-container-low flex items-center justify-between gap-space-md" data-active-classes="bg-surface-container text-primary font-semibold"><div class="flex items-center gap-space-xs"><a class="px-space-md py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="incident-command" href="/stitch/incident_command_triage/code.html">Incident Command</a><a class="px-space-md py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="recall-intelligence-graph" href="/stitch/recall_intelligence_graph/code.html">Recall Intelligence Graph</a><a aria-current="page" class="px-space-md py-2.5 rounded-DEFAULT transition-colors bg-surface-container text-primary font-semibold" data-path="recall-coordination" href="/stitch/recall_coordination_containment/code.html">Recall Coordination</a><a class="px-space-md py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="effectiveness-and-simulation" href="/stitch/effectiveness_mock_recall_simulator/code.html">Effectiveness &amp; Simulation</a></div><div class="hidden md:flex items-center gap-space-xs font-label-mono-sm text-label-mono-sm text-tertiary"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span><span>Multi-tier Provenance Mesh Ready</span></div></nav></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-2.5rem)]"><div class="flex flex-col w-full">
+<!-- Command Strip / Alert Topline -->
+<section class="w-full px-margin py-space-sm bg-surface-container-lowest">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-DEFAULT bg-error-container text-on-error-container font-label-mono-sm text-label-mono-sm uppercase tracking-wider font-semibold">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+          ACTIVE LOCKOUT INC-2026-084
+        </span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Class I Hazard Protocol</span>
+<span class="text-outline-variant font-label-mono-sm text-label-mono-sm">•</span>
+<span class="font-label-mono-sm text-label-mono-sm text-tertiary">Batches: PRD-2026-441A / 441B</span>
+<span class="text-outline-variant font-label-mono-sm text-label-mono-sm">•</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">GTIN 00810049210084</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-mono-sm text-label-mono-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">fingerprint</span>
+          E-Sign Chain Validated
+        </span>
+<span class="px-space-sm py-0.5 rounded-DEFAULT bg-surface-container-high text-on-surface font-label-mono-sm text-label-mono-sm">
+          Node: VULTR-US-EAST-AI4
+        </span>
+</div>
+</div>
+</section>
+<!-- Impact Matrix Banner -->
+<section class="w-full px-margin py-space-md bg-surface-container-low">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Metric 1 -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase tracking-wider">Total Affected Volume</span>
+<span class="p-1 rounded bg-error-container/30 text-error material-symbols-outlined text-[18px]">inventory_2</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-display-xl text-headline-lg font-bold text-on-surface tracking-tight leading-none">42,800 <span class="font-body-md text-body-sm text-on-surface-variant font-normal">units</span></div>
+<div class="mt-1 flex items-center justify-between text-body-sm text-error">
+<span class="font-label-mono-sm text-label-mono-sm">$642,000 Retail Risk Exposure</span>
+<span class="font-label-mono-sm text-label-mono-sm">100% Mapped</span>
+</div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase tracking-wider">Plant Hold Secured</span>
+<span class="p-1 rounded bg-tertiary-container/30 text-tertiary material-symbols-outlined text-[18px]">lock</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-display-xl text-headline-lg font-bold text-tertiary tracking-tight leading-none">18,200 <span class="font-body-md text-body-sm text-on-surface-variant font-normal">units</span></div>
+<div class="mt-1 flex items-center justify-between text-body-sm text-on-surface-variant">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface">Physical Seal #ES-9921 Applied</span>
+<span class="font-label-mono-sm text-label-mono-sm text-tertiary">42.5% Contained</span>
+</div>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase tracking-wider">Consignee Alerts</span>
+<span class="p-1 rounded bg-secondary-container/40 text-secondary material-symbols-outlined text-[18px]">campaign</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-display-xl text-headline-lg font-bold text-on-surface tracking-tight leading-none">42 <span class="font-body-md text-body-sm text-on-surface-variant font-normal">Partners</span></div>
+<div class="mt-1 flex items-center justify-between text-body-sm">
+<span class="font-label-mono-sm text-label-mono-sm text-error">31 Pending Sign-Off</span>
+<span class="font-label-mono-sm text-label-mono-sm text-secondary">11 Pre-Alerted</span>
+</div>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase tracking-wider">Regulatory Gate</span>
+<span class="p-1 rounded bg-primary-container/30 text-primary material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-headline-sm text-headline-sm font-semibold text-primary tracking-tight">FDA 24hr + FSSAI Form G</div>
+<div class="mt-1 flex items-center justify-between font-label-mono-sm text-label-mono-sm text-on-surface-variant">
+<span class="text-tertiary">Dossier Bundled</span>
+<span class="text-error">Awaiting VP E-Sign</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Workspace Splice: 55% Drafter & Preview | 45% Distribution Table & Verification Gate -->
+<section class="w-full px-margin py-space-lg">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT WORKSPACE: Regulatory Drafter & Live Notice Preview (7 cols) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- Header & Profile Selector -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="w-3 h-3 rounded-full bg-error animate-pulse"></span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">Dual Regulatory Notice Drafter</h2>
+<p class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Automated merge from GS1 EPCIS &amp; Traceability Mesh</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-lowest p-1 rounded-lg">
+<button class="px-space-md py-1.5 rounded-DEFAULT bg-primary-container text-on-primary-container font-label-mono-sm text-label-mono-sm font-medium transition-all flex items-center gap-1.5 shadow-sm" id="tab-usfda" onclick="switchRegulator('fda')" type="button">
+<span>🇺🇸</span>
+<span>US FDA 21 CFR Part 7 (Class I)</span>
+</button>
+<button class="px-space-md py-1.5 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-mono-sm text-label-mono-sm transition-all flex items-center gap-1.5" id="tab-fssai" onclick="switchRegulator('fssai')" type="button">
+<span>🇮🇳</span>
+<span>India FSSAI Form G (2017)</span>
+</button>
+</div>
+</div>
+<!-- AI Intelligence Validation Strip -->
+<div class="p-space-sm rounded-lg bg-secondary-container/20 flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">smart_toy</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-mono-sm text-label-mono-sm text-secondary font-medium uppercase tracking-wider">AI Consignee Intelligence Engine</span>
+<span class="font-label-mono-sm text-label-mono-sm text-tertiary">Validation Score: 99.8%</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-secondary-container mt-0.5">
+                Agent verified all 42 consignee contact records, verified direct QA compliance emergency hotlines, and checked active EDI AS2 connections. Zero missing destination points detected.
+              </p>
+</div>
+</div>
+</div>
+<!-- Document Preview Canvas (Tactical Legal Sheet) -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg flex flex-col gap-space-md relative overflow-hidden shadow-xl">
+<!-- Watermark / Stamp -->
+<div class="absolute right-4 top-4 pointer-events-none opacity-20 select-none">
+<span class="font-label-mono-lg text-display-xl font-black text-error uppercase rotate-12 tracking-widest block">
+              DRAFT HOLD
+            </span>
+</div>
+<!-- Document Header -->
+<div class="flex items-start justify-between pb-space-md bg-surface-container-low/40 p-space-md rounded-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded bg-surface-container-high flex items-center justify-center p-2">
+<span class="material-symbols-outlined text-primary text-[28px]">token</span>
+</div>
+<div>
+<p class="font-label-mono-sm text-label-mono-sm uppercase text-outline">BatchBridge Verified Operations</p>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight" id="doc-title">URGENT: FOOD RECALL &amp; INVENTORY QUARANTINE NOTICE</h3>
+<p class="font-label-mono-sm text-label-mono-sm text-error" id="doc-subhead">CLASS I RECALL — REASONABLE PROBABILITY OF SERIOUS ADVERSE HEALTH CONSEQUENCES</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant block">Date of Transmission</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface font-semibold">February 26, 2026 - 16:40 UTC</span>
+<span class="font-label-mono-sm text-label-mono-sm text-tertiary block mt-1">Ref: REC-COMM-88219</span>
+</div>
+</div>
+<!-- Document Grid Metadata (Auto Merged Fields) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm p-space-md rounded-lg bg-surface-container">
+<div>
+<span class="font-label-mono-sm text-label-mono-sm text-outline block">AFFECTED PRODUCT</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface block mt-0.5">VitalNutrient Protein Powder 500g</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Vanilla Creme SKU #VN-8840</span>
+</div>
+<div>
+<span class="font-label-mono-sm text-label-mono-sm text-outline block">LOT &amp; SERIAL NUMBER(S)</span>
+<span class="font-label-mono-sm text-label-mono-md text-primary font-bold block mt-0.5">PRD-2026-441A | PRD-2026-441B</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Exp: 08/2027 • Facility: TX-F04</span>
+</div>
+<div>
+<span class="font-label-mono-sm text-label-mono-sm text-outline block">DISTRIBUTION PERIOD</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface block mt-0.5">Feb 20 - Feb 26, 2026</span>
+<span class="font-label-mono-sm text-label-mono-sm text-tertiary">Transited: 42 Logistics Hubs</span>
+</div>
+</div>
+<!-- Health Hazard Evaluation (HHE) Block -->
+<div class="p-space-md rounded-lg bg-surface-container-high flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-mono-sm text-label-mono-sm text-error uppercase font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+                Health Hazard Evaluation (HHE) Finding
+              </span>
+<span class="px-space-xs py-0.5 rounded bg-error-container text-on-error-container font-label-mono-sm text-label-mono-sm font-semibold" id="reg-code-badge">
+                FDA HHE Ref #2026-NE-09
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed" id="hhe-description">
+              Laboratory testing confirmed undeclared cross-contact contamination with allergen residues exceeding allowable threshold (<span class="font-label-mono-sm text-label-mono-sm text-error">Peanut Protein derivative &gt; 120 ppm</span>). Consumption may trigger severe or life-threatening systemic anaphylactic reactions in allergic individuals.
+            </p>
+</div>
+<!-- Mandatory Consignee Directive -->
+<div class="p-space-md rounded-lg bg-surface-container flex flex-col gap-space-sm">
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span>
+              Mandatory Immediate Actions for Consignee:
+            </h4>
+<div class="space-y-space-xs font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-start gap-space-sm">
+<span class="w-5 h-5 rounded-full bg-error-container/40 text-error flex items-center justify-center font-label-mono-sm text-label-mono-sm shrink-0">1</span>
+<div><strong class="text-on-surface">Immediate Sales Lock:</strong> Cease distribution, sale, and internal transfers of lots PRD-2026-441A and PRD-2026-441B effective immediately.</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<span class="w-5 h-5 rounded-full bg-error-container/40 text-error flex items-center justify-center font-label-mono-sm text-label-mono-sm shrink-0">2</span>
+<div><strong class="text-on-surface">Physical Quarantine:</strong> Segregate all remaining on-hand stock into a secured, clearly identified holding perimeter labeled: <span class="font-label-mono-sm text-label-mono-sm text-error">"QUARANTINED - DO NOT SHIP - RECALL INC-2026-084"</span>.</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<span class="w-5 h-5 rounded-full bg-error-container/40 text-error flex items-center justify-center font-label-mono-sm text-label-mono-sm shrink-0">3</span>
+<div><strong class="text-on-surface">Downstream Cascade:</strong> If stock has been further distributed to sub-retailers or franchise locations, immediately trigger secondary recall notifications within <span class="font-semibold text-on-surface">12 hours</span>.</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<span class="w-5 h-5 rounded-full bg-error-container/40 text-error flex items-center justify-center font-label-mono-sm text-label-mono-sm shrink-0">4</span>
+<div><strong class="text-on-surface">Reconciliation Return / Destruction:</strong> Awaited RMA shipping credentials will be delivered via EDI-856 manifest link upon digital confirmation.</div>
+</div>
+</div>
+</div>
+<!-- Digital Acknowledgment Portal & Dynamic QR verification -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<!-- Inline QR Code SVG graphic representation -->
+<div class="w-20 h-20 bg-surface-container-lowest p-1.5 rounded flex items-center justify-center shrink-0">
+<svg class="w-full h-full text-primary" fill="currentColor" viewbox="0 0 100 100">
+<!-- QR Corner Anchors -->
+<rect fill="currentColor" height="28" rx="2" width="28" x="5" y="5"></rect>
+<rect fill="#0a0e16" height="20" width="20" x="9" y="9"></rect>
+<rect fill="currentColor" height="12" width="12" x="13" y="13"></rect>
+<rect fill="currentColor" height="28" rx="2" width="28" x="67" y="5"></rect>
+<rect fill="#0a0e16" height="20" width="20" x="71" y="9"></rect>
+<rect fill="currentColor" height="12" width="12" x="75" y="13"></rect>
+<rect fill="currentColor" height="28" rx="2" width="28" x="5" y="67"></rect>
+<rect fill="#0a0e16" height="20" width="20" x="9" y="71"></rect>
+<rect fill="currentColor" height="12" width="12" x="13" y="75"></rect>
+<!-- Data matrix blocks -->
+<rect fill="currentColor" height="8" width="8" x="42" y="10"></rect>
+<rect fill="currentColor" height="6" width="6" x="54" y="14"></rect>
+<rect fill="currentColor" height="6" width="14" x="42" y="24"></rect>
+<rect fill="currentColor" height="8" width="8" x="12" y="44"></rect>
+<rect fill="currentColor" height="6" width="12" x="24" y="44"></rect>
+<rect fill="currentColor" height="20" width="20" x="40" y="40"></rect>
+<rect fill="#0a0e16" height="12" width="12" x="44" y="44"></rect>
+<rect fill="currentColor" height="4" width="4" x="48" y="48"></rect>
+<rect fill="currentColor" height="8" width="10" x="68" y="42"></rect>
+<rect fill="currentColor" height="10" width="10" x="82" y="46"></rect>
+<rect fill="currentColor" height="12" width="10" x="42" y="70"></rect>
+<rect fill="currentColor" height="6" width="8" x="56" y="68"></rect>
+<rect fill="currentColor" height="8" width="14" x="70" y="70"></rect>
+<rect fill="currentColor" height="18" width="8" x="88" y="74"></rect>
+</svg>
+</div>
+<div>
+<span class="font-label-mono-sm text-label-mono-sm text-tertiary uppercase font-medium">Consignee Instant Verification Hook</span>
+<h5 class="font-headline-sm text-body-lg font-bold text-on-surface mt-0.5">https://secure.batchbridge.org/ack/INC-084-TOKEN</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                  Consignees can verify holding counts, log isolated stock, and digitally sign proof-of-quarantine in under 60 seconds.
+                </p>
+</div>
+</div>
+<div class="shrink-0 flex md:flex-col gap-space-xs w-full md:w-auto">
+<button class="flex-1 md:flex-initial px-space-md py-2 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-mono-sm text-label-mono-sm transition-all flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+                Full PDF Preview
+              </button>
+<button class="flex-1 md:flex-initial px-space-md py-2 rounded-lg bg-surface-container-high hover:bg-surface-bright text-tertiary font-label-mono-sm text-label-mono-sm transition-all flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+                EDI 856 XML Node
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT WORKSPACE: Consignee Stock-Hold Distribution Table & Containment Actions (5 cols) -->
+<div class="xl:col-span-5 flex flex-col gap-space-lg">
+<!-- Live Distribution & Containment Tracker Card -->
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-md shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="p-1.5 rounded-lg bg-surface-container-highest text-primary material-symbols-outlined text-[20px]">local_shipping</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Consignee Stock Distribution</h3>
+<p class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Top Tier Distribution Points (22,400 Outbound Units)</p>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-surface-container-high font-label-mono-sm text-label-mono-sm text-tertiary">
+              Live Feed
+            </span>
+</div>
+<!-- Micro Visual Bar: Quarantined vs Outstanding -->
+<div class="space-y-1">
+<div class="flex justify-between font-label-mono-sm text-label-mono-sm">
+<span class="text-on-surface-variant">Consignee Inventory Isolation State</span>
+<span class="text-tertiary font-semibold">18,200 Secured / 24,600 In-Transit &amp; At Retail</span>
+</div>
+<div class="w-full h-2 rounded bg-surface-container-lowest overflow-hidden flex">
+<div class="bg-tertiary h-full transition-all" style="width: 42.5%" title="Plant Hold"></div>
+<div class="bg-secondary h-full transition-all" style="width: 10.3%" title="Pre-Alerted"></div>
+<div class="bg-error h-full transition-all" style="width: 47.2%" title="Pending Quarantine"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-label-mono-sm text-label-mono-sm text-outline-variant pt-0.5">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary"></span> Plant Seal (42.5%)</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> Pre-Alerted (10.3%)</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-error"></span> Pending (47.2%)</span>
+</div>
+</div>
+<!-- Consignee Table -->
+<div class="overflow-x-auto rounded-lg bg-surface-container-lowest">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead class="bg-surface-container-high/80 text-outline uppercase font-label-mono-sm text-label-mono-sm">
+<tr>
+<th class="py-2.5 px-3">Consignee &amp; Hub</th>
+<th class="py-2.5 px-3 text-right">Units</th>
+<th class="py-2.5 px-3">Current State</th>
+<th class="py-2.5 px-3 text-center">Batch Lock</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-body-md text-body-sm font-semibold text-on-surface">MegaMart DC #102</div>
+<div class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Chicago, IL • EDI ID: US-MM-102</div>
+</td>
+<td class="py-2.5 px-3 text-right font-label-mono-sm text-label-mono-sm font-semibold text-on-surface">
+                    6,200
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-error-container/30 text-error font-label-mono-sm text-label-mono-sm font-semibold">
+                      Pending Dispatch
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="accent-error w-4 h-4 cursor-pointer" id="lock-1" onchange="toggleLockRow('lock-1', 'MegaMart DC #102')" type="checkbox"/>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-body-md text-body-sm font-semibold text-on-surface">NutriCore Wholesale</div>
+<div class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Dallas, TX • EDI ID: NC-TX-409</div>
+</td>
+<td class="py-2.5 px-3 text-right font-label-mono-sm text-label-mono-sm font-semibold text-on-surface">
+                    4,400
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary-container/40 text-secondary font-label-mono-sm text-label-mono-sm font-semibold">
+                      Pre-Alert Sent
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="accent-error w-4 h-4 cursor-pointer" id="lock-2" onchange="toggleLockRow('lock-2', 'NutriCore Wholesale')" type="checkbox"/>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-body-md text-body-sm font-semibold text-on-surface">Apex Grocers Hub</div>
+<div class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Atlanta, GA • EDI ID: AG-GA-811</div>
+</td>
+<td class="py-2.5 px-3 text-right font-label-mono-sm text-label-mono-sm font-semibold text-on-surface">
+                    5,100
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-label-mono-sm text-label-mono-sm font-semibold">
+                      In-Transit Hold Req
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="accent-error w-4 h-4 cursor-pointer" id="lock-3" onchange="toggleLockRow('lock-3', 'Apex Grocers Hub')" type="checkbox"/>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-body-md text-body-sm font-semibold text-on-surface">HealthSource Distribution</div>
+<div class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Secaucus, NJ • EDI ID: HS-NJ-002</div>
+</td>
+<td class="py-2.5 px-3 text-right font-label-mono-sm text-label-mono-sm font-semibold text-on-surface">
+                    3,900
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-error-container/30 text-error font-label-mono-sm text-label-mono-sm font-semibold">
+                      Pending Dispatch
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="accent-error w-4 h-4 cursor-pointer" id="lock-4" onchange="toggleLockRow('lock-4', 'HealthSource Distribution')" type="checkbox"/>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-body-md text-body-sm font-semibold text-on-surface">SunState Retailers</div>
+<div class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Miami, FL • EDI ID: SS-FL-550</div>
+</td>
+<td class="py-2.5 px-3 text-right font-label-mono-sm text-label-mono-sm font-semibold text-on-surface">
+                    2,800
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-error-container/30 text-error font-label-mono-sm text-label-mono-sm font-semibold">
+                      Pending Dispatch
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="accent-error w-4 h-4 cursor-pointer" id="lock-5" onchange="toggleLockRow('lock-5', 'SunState Retailers')" type="checkbox"/>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex items-center justify-between text-body-sm pt-space-xs">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">+37 additional Tier-2 consignees queued</span>
+<button class="font-label-mono-sm text-label-mono-sm text-primary hover:underline flex items-center gap-1" type="button">
+              View All 42 Entities <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Plant Quarantine Seal Verification Micro Card -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded bg-tertiary-container/20 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-body-lg text-on-surface font-semibold">Plant Hold Seal #ES-9921</h4>
+<p class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">18,200 units physically cordoned in Facility Bay 4C</p>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-mono-sm text-label-mono-sm text-tertiary font-medium">
+            CONFIRMED
+          </span>
+</div>
+<!-- HUMAN-IN-THE-LOOP EMERGENCY AUTHORIZATION GATE (CRITICAL REGULATORY SAFEGUARD) -->
+<div class="rounded-xl bg-surface-container p-space-lg flex flex-col gap-space-md shadow-2xl relative overflow-hidden">
+<!-- Ambient Edge Accent Indicator -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-error via-secondary to-error"></div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">Human Authorization Gate</h3>
+<p class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">21 CFR § 7.49 &amp; FSSAI Human-in-the-Loop Safeguard</p>
+</div>
+</div>
+<span class="font-label-mono-sm text-label-mono-sm px-2 py-0.5 rounded bg-error-container/30 text-error font-semibold uppercase">
+              Action Required
+            </span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest font-body-sm text-body-sm text-on-surface-variant">
+<strong class="text-on-surface font-semibold">Strict Regulatory Isolation:</strong> Autonomous AI agents have compiled dossiers, verified contact payloads, and verified cold-chain logs. Final transmission of binding recall directives to regulators and supply-chain partners requires authorized human cryptographic sign-off.
+          </div>
+<!-- Sign-Off Form -->
+<form class="space-y-space-md" id="authorization-form" onsubmit="event.preventDefault(); handleAuthorizationSubmit();">
+<!-- Officer Credentials Badge -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container-low">
+<span class="font-label-mono-sm text-label-mono-sm text-outline block">AUTHORIZED SIGNER</span>
+<span class="font-body-md text-body-sm font-semibold text-on-surface block mt-0.5">Elena Vance</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">VP Food Safety &amp; QA Ops</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low">
+<span class="font-label-mono-sm text-label-mono-sm text-outline block">COMPLIANCE CREDENTIAL ID</span>
+<span class="font-label-mono-sm text-label-mono-sm font-bold text-tertiary block mt-0.5">QA-CERT-US-2024-9981</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Role Verified via SSO</span>
+</div>
+</div>
+<!-- PIN & Digital E-Signature -->
+<div>
+<label class="font-label-mono-sm text-label-mono-sm text-on-surface uppercase font-medium block mb-1" for="esign-pin">
+                Digital Signature Security PIN (FIPS-140-2)
+              </label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline font-label-mono-md text-label-mono-md px-space-md py-2.5 rounded-lg outline-none focus:bg-surface-container-high transition-all" id="esign-pin" maxlength="6" placeholder="Enter 6-digit Compliance PIN" required="" type="password"/>
+<span class="material-symbols-outlined text-outline absolute right-3 top-2.5 text-[20px]">vpn_key</span>
+</div>
+</div>
+<!-- Mandatory Legal Checkbox -->
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-lowest">
+<input class="mt-1 accent-error w-4 h-4 cursor-pointer" id="legal-affirmation" required="" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer select-none" for="legal-affirmation">
+                I hereby certify under penalty of law (21 CFR § 7.49 &amp; FSSAI Regulations 2017) that the incident classifications, health hazard evaluations, and quarantine manifests have been reviewed and approved for immediate multi-agency broadcast.
+              </label>
+</div>
+<!-- Action Trigger CTAs -->
+<div class="flex flex-col sm:flex-row items-center gap-space-sm pt-space-xs">
+<button class="w-full sm:flex-1 py-3 px-space-md rounded-lg bg-error-container hover:bg-error text-on-error-container hover:text-on-error font-headline-sm text-body-sm font-bold transition-all shadow-lg flex items-center justify-center gap-2 group" id="btn-dispatch" type="submit">
+<span class="material-symbols-outlined text-[20px] group-hover:animate-bounce">send_time_extension</span>
+<span>Authorize &amp; Dispatch 42 Notices &amp; File FDA</span>
+</button>
+<button class="w-full sm:w-auto py-3 px-space-md rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-mono-sm text-label-mono-sm transition-all flex items-center justify-center gap-1.5" onclick="saveDraftNotice()" type="button">
+<span class="material-symbols-outlined text-[16px]">save</span>
+<span>Save Draft &amp; Request Board Review</span>
+</button>
+</div>
+<!-- Submission Status Message Container -->
+<div class="hidden p-space-sm rounded-lg bg-primary-container text-on-primary-container font-label-mono-sm text-label-mono-sm flex items-center gap-2 animate-fadeIn" id="dispatch-feedback">
+<span class="material-symbols-outlined text-[18px]">cloud_done</span>
+<span id="feedback-text">Authorized! Transmitting 42 partner notifications and regulatory submission...</span>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive JavaScript Behavior -->
+<script>
+    function switchRegulator(target) {
+      const tabFDA = document.getElementById('tab-usfda');
+      const tabFSSAI = document.getElementById('tab-fssai');
+      const docTitle = document.getElementById('doc-title');
+      const docSubhead = document.getElementById('doc-subhead');
+      const regCodeBadge = document.getElementById('reg-code-badge');
+      const hheDescription = document.getElementById('hhe-description');
+
+      if (target === 'fda') {
+        tabFDA.className = "px-space-md py-1.5 rounded-DEFAULT bg-primary-container text-on-primary-container font-label-mono-sm text-label-mono-sm font-medium transition-all flex items-center gap-1.5 shadow-sm";
+        tabFSSAI.className = "px-space-md py-1.5 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-mono-sm text-label-mono-sm transition-all flex items-center gap-1.5";
+        
+        docTitle.textContent = "URGENT: FOOD RECALL & INVENTORY QUARANTINE NOTICE";
+        docSubhead.textContent = "CLASS I RECALL — REASONABLE PROBABILITY OF SERIOUS ADVERSE HEALTH CONSEQUENCES";
+        regCodeBadge.textContent = "FDA HHE Ref #2026-NE-09";
+        hheDescription.innerHTML = "Laboratory testing confirmed undeclared cross-contact contamination with allergen residues exceeding allowable threshold (<span class='font-label-mono-sm text-label-mono-sm text-error'>Peanut Protein derivative &gt; 120 ppm</span>). Consumption may trigger severe or life-threatening systemic anaphylactic reactions in allergic individuals.";
+      } else {
+        tabFSSAI.className = "px-space-md py-1.5 rounded-DEFAULT bg-primary-container text-on-primary-container font-label-mono-sm text-label-mono-sm font-medium transition-all flex items-center gap-1.5 shadow-sm";
+        tabFDA.className = "px-space-md py-1.5 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-mono-sm text-label-mono-sm transition-all flex items-center gap-1.5";
+        
+        docTitle.textContent = "SCHEDULE II FORM G: FOOD RECALL STATUTORY NOTICE";
+        docSubhead.textContent = "FOOD SAFETY & STANDARDS (FOOD RECALL PROCEDURE) REGULATIONS, 2017";
+        regCodeBadge.textContent = "FSSAI Cat-1 Hazard Code #2026-DEL-881";
+        hheDescription.innerHTML = "Statutory microbiological / allergen parameter breach under Section 28 of FSS Act. Presence of undeclared peanut allergens exceeding permissible non-declaration limits. High risk of life-threatening allergic reactions requiring immediate market removal.";
+      }
+    }
+
+    function toggleLockRow(checkboxId, hubName) {
+      const cb = document.getElementById(checkboxId);
+      const feedback = document.getElementById('dispatch-feedback');
+      const feedbackText = document.getElementById('feedback-text');
+      feedback.classList.remove('hidden');
+      if (cb.checked) {
+        feedbackText.textContent = `Batch Lock re-engaged for ${hubName}. EDI 856 hold packet staged.`;
+      } else {
+        feedbackText.textContent = `Batch Lock manually relaxed for ${hubName}. System logging deviation event.`;
+      }
+      setTimeout(() => {
+        feedback.classList.add('hidden');
+      }, 3500);
+    }
+
+    function handleAuthorizationSubmit() {
+      const pinInput = document.getElementById('esign-pin');
+      const feedback = document.getElementById('dispatch-feedback');
+      const feedbackText = document.getElementById('feedback-text');
+      const btn = document.getElementById('btn-dispatch');
+
+      if (!pinInput.value || pinInput.value.length < 4) {
+        alert("Please enter a valid 6-digit compliance PIN.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Dispatching In-Flight Requests...`;
+      
+      setTimeout(() => {
+        feedback.classList.remove('hidden');
+        feedback.classList.remove('bg-primary-container');
+        feedback.classList.add('bg-tertiary-container');
+        feedback.classList.add('text-on-tertiary-container');
+        feedbackText.innerHTML = `<strong>BROADCAST EXECUTED:</strong> 42 Consignee EDI / Secure Email alerts transmitted. 24-hr FDA submission packet logged (Reference ID: #FDA-2026-084-TRANS). Audit trail locked.`;
+        btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">verified</span> Dispatch Complete`;
+      }, 1200);
+    }
+
+    function saveDraftNotice() {
+      const feedback = document.getElementById('dispatch-feedback');
+      const feedbackText = document.getElementById('feedback-text');
+      feedback.classList.remove('hidden');
+      feedbackText.textContent = "Draft notice saved to internal compliance ledger. Notification sent to General Counsel and Board.";
+      setTimeout(() => {
+        feedback.classList.add('hidden');
+      }, 3500);
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest py-2.5 px-margin"><div class="w-full flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm font-label-mono-sm text-label-mono-sm text-on-surface-variant"><span class="inline-flex items-center gap-1 text-tertiary"><span class="material-symbols-outlined text-[14px]">verified</span>Database Source of Truth: Active (Chain-of-Custody Verified)</span><span class="text-outline">•</span><span class="inline-flex items-center gap-1 text-secondary"><span class="material-symbols-outlined text-[14px]">gavel</span>Human Approval Required for External Actions</span></div><div class="flex items-center gap-space-md font-label-mono-sm text-label-mono-sm text-outline"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">lock</span>FSMA 204 Compliant</span><span>v4.18.2-prod</span></div></div></footer></body></html>
