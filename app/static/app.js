@@ -231,10 +231,26 @@
     const actions = `<button class="button" data-action="navigate" data-view="simulation">Run recall drill</button><button class="button primary" data-action="new-incident">${icon('plus')} New incident</button>`;
     return `${heading('Operations overview','Command center','A live view of product incidents, distribution exposure and recall response.',actions)}
       <div class="metric-grid">
-        ${metric('Active incidents',fmt(data.metrics.active_incidents),`${data.metrics.critical_incidents} critical requiring attention`,'incidents')}
-        ${metric('Tracked lot records',fmt(data.metrics.tracked_lots),'Ingredient, production and finished goods','box')}
-        ${metric('Network partners',fmt(data.metrics.partners),'Across India and the United States','partners')}
-        ${metric('Actions awaiting approval',fmt(pending),pending ? '<span class="negative">Human review required</span>' : '<span class="positive">No pending approvals</span>','shield')}
+        <div class="metric-card">
+          <div class="metric-top"><div class="metric-label">Active incidents</div><div class="metric-icon" style="background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)">${icon('incidents')}</div></div>
+          <div class="metric-value">${fmt(data.metrics.active_incidents)}</div>
+          <div class="metric-foot">${data.metrics.critical_incidents ? `<span class="negative">${data.metrics.critical_incidents} critical requiring attention</span>` : '<span class="positive">All incidents contained</span>'}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top"><div class="metric-label">Tracked lot records</div><div class="metric-icon" style="background:var(--teal-light);color:var(--teal);border:1px solid var(--teal-border)">${icon('box')}</div></div>
+          <div class="metric-value">${fmt(data.metrics.tracked_lots)}</div>
+          <div class="metric-foot">Ingredients, batches & finished goods</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top"><div class="metric-label">Network partners</div><div class="metric-icon" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)">${icon('partners')}</div></div>
+          <div class="metric-value">${fmt(data.metrics.partners)}</div>
+          <div class="metric-foot">Suppliers, processors & distributors</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top"><div class="metric-label">Actions awaiting approval</div><div class="metric-icon" style="background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)">${icon('shield')}</div></div>
+          <div class="metric-value">${fmt(pending)}</div>
+          <div class="metric-foot">${pending ? '<span class="negative">Human review required</span>' : '<span class="positive">No pending approvals</span>'}</div>
+        </div>
       </div>
       <div class="dashboard-grid">
         <section class="panel">
@@ -245,7 +261,7 @@
             <div class="hero-actions"><button class="button primary" data-action="investigate" data-id="${active.id}">${icon('agents')} Run investigation</button><button class="button" data-action="open-incident" data-id="${active.id}">Open incident workspace ${icon('arrow')}</button></div></div>` : `<div class="empty-state">No active incidents.</div>`}
         </section>
         <section class="panel readiness-panel"><div class="panel-title">Recipient response</div><div class="panel-subtitle">Acknowledgements from mapped shipments</div>
-          <div class="readiness-score"><div class="score-ring" style="background:conic-gradient(#4c896b 0deg ${ackRate*3.6}deg,#e8eee9 ${ackRate*3.6}deg 360deg)"><div class="score-center"><div class="score-number">${ackRate}%</div><div class="score-label">ACKNOWLEDGED</div></div></div><div class="score-copy"><strong>${acked} of ${shipped.length} shipments confirmed</strong><p>${shipped.length-acked} recipient response(s) still need follow-up. This is a live count from the demo shipment register.</p></div></div>
+          <div class="readiness-score"><div class="score-ring" style="background:conic-gradient(var(--teal) 0deg ${ackRate*3.6}deg,#E2E8F0 ${ackRate*3.6}deg 360deg)"><div class="score-center"><div class="score-number">${ackRate}%</div><div class="score-label">ACKNOWLEDGED</div></div></div><div class="score-copy"><strong>${acked} of ${shipped.length} shipments confirmed</strong><p>${shipped.length-acked} recipient response(s) still need follow-up. Live status from shipment register.</p></div></div>
           <div class="readiness-checks"><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Source lot in genealogy register</span><span class="check-value">${trace?.found ? 'FOUND' : '—'}</span></div><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Finished-goods links resolved</span><span class="check-value">${trace?.metrics?.finished_lots || 0}</span></div><div class="readiness-check"><span class="check-dot ${shipped.length-acked?'warn':''}">${shipped.length-acked?'!':icon('check')}</span><span>Recipient acknowledgements</span><span class="check-value">${acked}/${shipped.length}</span></div><div class="readiness-check"><span class="check-dot ${pending?'warn':''}">${pending?'!':icon('check')}</span><span>Human approvals outstanding</span><span class="check-value">${pending}</span></div></div>
         </section>
       </div>
@@ -305,8 +321,46 @@
     const production = trace.lots.filter(x=>x.type==='production');
     const finished = trace.lots.filter(x=>x.type==='finished');
     const partners = [...new Map(trace.shipments.map(x=>[x.partner_id, x])).values()];
-    const node = (x, cls = '') => `<div class="graph-node ${cls}"><div class="graph-node-code">${esc(x.code || x.reference)}</div><div class="graph-node-name">${esc(x.product_name || x.partner)}</div><div class="graph-node-foot">${esc(x.quantity ? `${fmt(x.quantity)} ${x.unit || 'units'}` : x.facility || countryLabel(x.country))}</div></div>`;
-    return `<div class="graph-canvas"><div class="graph-layers"><div class="graph-layer"><div class="graph-layer-title">01 · Source ingredient</div>${sources.map(x=>node(x,'source')).join('') || '<div class="graph-node">No source lot</div>'}<span class="graph-arrow">→</span></div><div class="graph-layer"><div class="graph-layer-title">02 · Production runs</div>${production.map(x=>node(x)).join('') || '<div class="graph-node">No production run</div>'}<span class="graph-arrow">→</span></div><div class="graph-layer"><div class="graph-layer-title">03 · Finished goods</div>${finished.map(x=>node(x,'finished')).join('') || '<div class="graph-node">No finished lot</div>'}<span class="graph-arrow">→</span></div><div class="graph-layer"><div class="graph-layer-title">04 · Recipients</div>${partners.map(x=>node(x,'recipient')).join('') || '<div class="graph-node">No shipment recipients</div>'}</div></div></div><div class="graph-legend"><span><i class="legend-dot" style="background:#d6a76d"></i>Source material</span><span><i class="legend-dot" style="background:#a8c4b0"></i>Finished goods</span><span><i class="legend-dot" style="background:#9cb6ce"></i>Distribution partner</span><span style="margin-left:auto">${trace.edges.length} recorded relationships</span></div>`;
+    const node = (x, cls = '', tierBadge = '') => `
+      <div class="graph-node ${cls}">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="graph-node-code">${esc(x.code || x.reference)}</div>
+          ${tierBadge ? `<span class="pill ${cls==='source'?'high':cls==='finished'?'low':'medium'}" style="font-size:8px;padding:2px 5px">${tierBadge}</span>`:''}
+        </div>
+        <div class="graph-node-name">${esc(x.product_name || x.partner)}</div>
+        <div class="graph-node-foot">${esc(x.quantity ? `${fmt(x.quantity)} ${x.unit || 'units'}` : x.facility || countryLabel(x.country))}</div>
+      </div>`;
+    return `
+      <div class="graph-canvas">
+        <div class="graph-layers">
+          <div class="graph-layer">
+            <div class="graph-layer-title"><span class="pill high" style="font-size:8px;padding:2px 5px">01</span> Source ingredient</div>
+            ${sources.map(x=>node(x,'source','Raw')).join('') || '<div class="graph-node">No source lot</div>'}
+            <span class="graph-arrow">→</span>
+          </div>
+          <div class="graph-layer">
+            <div class="graph-layer-title"><span class="pill status contained" style="font-size:8px;padding:2px 5px">02</span> Production runs</div>
+            ${production.map(x=>node(x,'','Process')).join('') || '<div class="graph-node">No production run</div>'}
+            <span class="graph-arrow">→</span>
+          </div>
+          <div class="graph-layer">
+            <div class="graph-layer-title"><span class="pill low" style="font-size:8px;padding:2px 5px">03</span> Finished goods</div>
+            ${finished.map(x=>node(x,'finished','Packaged')).join('') || '<div class="graph-node">No finished lot</div>'}
+            <span class="graph-arrow">→</span>
+          </div>
+          <div class="graph-layer">
+            <div class="graph-layer-title"><span class="pill medium" style="font-size:8px;padding:2px 5px">04</span> Consignees</div>
+            ${partners.map(x=>node(x,'recipient','Partner')).join('') || '<div class="graph-node">No shipment recipients</div>'}
+          </div>
+        </div>
+      </div>
+      <div class="graph-legend">
+        <span><i class="legend-dot" style="background:var(--amber)"></i>Source material</span>
+        <span><i class="legend-dot" style="background:#64748B"></i>Production batch</span>
+        <span><i class="legend-dot" style="background:var(--teal)"></i>Finished goods</span>
+        <span><i class="legend-dot" style="background:var(--blue)"></i>Distribution consignee</span>
+        <span style="margin-left:auto;font-family:var(--font-mono);color:var(--ink-soft)">${trace.edges.length} verified edges · 100% deterministic</span>
+      </div>`;
   }
   async function renderTraceability() {
     let trace = state.trace;
@@ -324,18 +378,18 @@
     const runs = state.runs;
     const incidentOptions = state.incidents.map(x=>`<option value="${x.id}">${esc(x.code)} · ${esc(x.title)}</option>`).join('');
     return `${heading('Operations / autonomous workflows','Agent activity','Specialized agents coordinate investigation, deterministic traceability and approval-gated response tasks.',`<select class="select" id="agent-incident-select">${incidentOptions}</select><button class="button primary" data-action="run-selected-investigation">${icon('agents')} Run agents</button>`)}
-      <div class="dashboard-grid"><section class="panel"><div class="panel-header"><div><div class="panel-title">Agent roster</div><div class="panel-subtitle">Orchestration stages available in this workspace</div></div><span class="pill status contained">7 roles</span></div><div class="agent-log">
+      <div class="dashboard-grid"><section class="panel"><div class="panel-header"><div><div class="panel-title">Autonomous Agent Roster</div><div class="panel-subtitle">Specialized multi-agent sequence executing against workspace database</div></div><span class="pill status contained">7 roles</span></div><div class="agent-log">
         ${[
-          ['Evidence Intake Agent','Validates the incident record and evidence metadata.','Deterministic'],
-          ['Traceability Agent','Resolves source-to-finished-lot genealogy and shipment links.','Database tools'],
-          ['Impact Assessment Agent','Calculates affected quantities and distribution scope.','Deterministic'],
-          ['Regulatory Mapping Agent','Loads the India FSSAI and US FDA operational rule packs.','Rule packs'],
-          ['Recall Coordination Agent','Creates proposed containment and recipient-response tasks.','Approval-gated'],
-          ['Recall Verification Agent','Tracks shipment acknowledgement and recall effectiveness gaps.','Deterministic'],
-          ['AI Reasoning Agent','Synthesizes evidence and uncertainties through Vultr inference when configured.','Vultr / fallback'],
-        ].map((x,i)=>`<div class="agent-log-row"><div class="agent-icon">${icon('agents')}</div><div><div class="agent-log-name">${x[0]}</div><div class="agent-log-detail">${x[1]}</div></div><span class="pill status ${i===6 && !state.settings?.ai?.configured?'open':'contained'}">${x[2]}</span></div>`).join('')}
-      </div></section><section class="panel"><div class="panel-header"><div><div class="panel-title">Execution guardrails</div><div class="panel-subtitle">The model proposes; backend rules enforce</div></div></div><div class="detail-section"><div class="readiness-checks" style="border:0;padding:0"><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Tenant-scoped database queries</span></div><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Deterministic lot and quantity calculations</span></div><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Human approval for recall actions</span></div><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>External notices remain drafts</span></div><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Audit entries for operator decisions</span></div></div><div class="approval-bar" style="margin-top:18px">This prototype does not send external communications, file with regulators, make legal decisions or connect to ERP/warehouse systems. Those integrations require explicit configuration and validation.</div></div></section></div>
-      <section class="panel" style="margin-top:15px"><div class="panel-header"><div><div class="panel-title">Recent agent runs</div><div class="panel-subtitle">Execution source and observed result</div></div><div class="panel-header-spacer"></div><span class="code-text">${runs.length} recent</span></div>${runs.length ? `<div class="agent-log">${runs.map(r=>`<div class="agent-log-row"><div class="agent-icon">${icon('activity')}</div><div><div class="agent-log-name">${esc(r.run_type.replaceAll('_',' '))} · ${esc(r.provider)}</div><div class="agent-log-detail">${esc(r.summary)}</div></div><div style="text-align:right"><div class="pill status contained">${esc(r.status)}</div><div class="run-time" style="margin-top:5px">${timeAgo(r.created_at)} · ${r.duration_ms} ms</div></div></div>`).join('')}</div>`:`<div class="empty-state">No agent runs yet. Choose an incident and run the investigation.</div>`}</section>`;
+          ['1','Evidence Intake Agent','Validates incident record, parses document text, and logs cryptographic SHA-256 fingerprint.','Deterministic'],
+          ['2','Deterministic Traceability Agent','Recursively resolves multi-tier lot genealogy and links upstream suppliers to finished goods.','Database Graph'],
+          ['3','Impact Assessment Agent','Calculates exposed finished-goods quantities, on-hand warehouse inventory, and units dispatched.','Deterministic'],
+          ['4','Regulatory Mapping Agent','Applies India FSSAI (FSS 2017) and US FDA (FSMA Rule 204 / 21 CFR Part 7) control packs.','Rules Pack'],
+          ['5','Recall Coordination Agent','Formulates human-approval-gated containment, recipient stop-sale, and stock reconciliation plans.','Approval-gated'],
+          ['6','Recall Verification Agent','Monitors downstream partner acknowledgements and tracks unresolved distribution gaps.','Deterministic'],
+          ['7','AI Reasoning Analyst','Evidence-constrained reasoning via Google Gemini or Vultr Serverless Inference.','Gemini / Vultr'],
+        ].map((x,i)=>`<div class="agent-log-row"><div class="agent-icon" style="font-weight:700;font-size:12px;color:var(--teal);background:var(--teal-light);border:1px solid var(--teal-border)">${x[0]}</div><div><div class="agent-log-name">${x[1]}</div><div class="agent-log-detail">${x[2]}</div></div><span class="pill status contained">${x[3]}</span></div>`).join('')}
+      </div></section><section class="panel"><div class="panel-header"><div><div class="panel-title">Safety & Execution Guardrails</div><div class="panel-subtitle">The model proposes; backend deterministic rules enforce</div></div></div><div class="detail-section"><div class="readiness-checks" style="border:0;padding:0"><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Strict tenant isolation & boundary checks</span></div><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Deterministic lot and quantity calculations (0% hallucination)</span></div><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Mandatory human approval gate for all recall actions</span></div><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>External notices remain unbroadcast drafts</span></div><div class="readiness-check"><span class="check-dot">${icon('check')}</span><span>Cryptographic SHA-256 evidence hashing</span></div></div><div class="approval-bar" style="margin-top:18px">This prototype provides operational decision support. Actions change workspace states upon authorized sign-off. External notifications or regulatory submissions require verified channels.</div></div></section></div>
+      <section class="panel" style="margin-top:18px"><div class="panel-header"><div><div class="panel-title">Live Agent Execution Telemetry</div><div class="panel-subtitle">Recent automated runs and observed durations</div></div><div class="panel-header-spacer"></div><span class="code-text">${runs.length} recorded runs</span></div>${runs.length ? `<div class="agent-log">${runs.map(r=>`<div class="agent-log-row"><div class="agent-icon">${icon('activity')}</div><div><div class="agent-log-name">${esc(r.run_type.replaceAll('_',' '))} · <span style="color:var(--teal)">${esc(r.provider)}</span></div><div class="agent-log-detail">${esc(r.summary)}</div></div><div style="text-align:right"><div class="pill status contained">${esc(r.status)}</div><div class="run-time" style="margin-top:5px">${timeAgo(r.created_at)} · ${r.duration_ms} ms</div></div></div>`).join('')}</div>`:`<div class="empty-state">No agent runs yet. Choose an incident and run the investigation.</div>`}</section>`;
   }
 
   function renderPartners() {

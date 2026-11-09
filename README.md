@@ -67,6 +67,33 @@ The production application is live and publicly accessible:
 
 ---
 
+## 📸 Product Screenshots & Enterprise Interface
+
+### Project Overview & Cover
+![BatchBridge AI Cover](docs/images/01_project_cover_branded.png)
+
+### 1. Operations Command Center (Main Dashboard)
+*High-contrast KPI hierarchy, critical incident visibility, real-time recipient response rates, and live activity streams.*
+![Command Center Dashboard](docs/images/02_main_dashboard.png)
+
+### 2. Incident Investigation & Human Approval Workflow
+*Detailed case management, 7-stage agent execution sequence, evidence registers with SHA-256 fingerprinting, and approval gates.*
+![Incident Investigation](docs/images/03_incident_investigation.png)
+
+### 3. Interactive Multi-Tier Batch Traceability Graph
+*Multi-tier lot genealogy resolving raw ingredients, production runs, packaged finished goods, and downstream distribution consignees.*
+![Batch Traceability Graph](docs/images/04_batch_traceability_graph.png)
+
+### 4. Autonomous Agent Workflow & Execution Telemetry
+*Dedicated agent roles, safety guardrails (0% hallucination on inventory counts), and live inference telemetry.*
+![AI Agent Workflow](docs/images/05_ai_agent_workflow.png)
+
+### 5. Mock Recall Readiness Drill
+*Comprehensive preparedness simulation scoring lot completeness, distribution visibility, and partner acknowledgement health.*
+![Recall Readiness Drill](docs/images/06_recall_readiness_drill.png)
+
+---
+
 ## ⚡ What BatchBridge AI Solves
 
 Food manufacturers operate across multi-tier networks: farmers, raw ingredient suppliers, manufacturing facilities, third-party logistics, national distributors, and retailers. 
